@@ -1,0 +1,46 @@
+// WIDTH SCREEN RESPONSIVE
+// .screen-width-max(@max-width, @rules) {
+.media-breakpoint-max(@max-width, @rules) {
+  @media (max-width: @max-width) {
+    @rules();
+  }
+}
+
+// .screen-width-min(@min-width, @rules) {
+.media-breakpoint-min(@min-width, @rules) {
+  @media (min-width: @min-width) {
+    @rules();
+  }
+}
+
+.media-breakpoint-between(@min-width, @max-width, @rules) {
+  @media (min-width: @min-width) and (max-width: @max-width) {
+    @rules();
+  }
+}
+
+// SPECIFIC SIZE DEVICES
+.tablet(@rules) {
+  .media-breakpoint-max(@tablet-width-max, @rules);
+}
+
+.tablet-only(@rules) {
+  .media-breakpoint-between(@mobile-width-max + 0.02px, @tablet-width-max, @rules);
+}
+
+.mobile(@rules) {
+  .media-breakpoint-max(@mobile-width-max, @rules);
+}
+
+// COMMON UTILITIES MIXINS AND CLASSES
+.list-none {
+  list-style-type: none;
+}
+
+// SIZING MIXINS
+.col-span(@num) {
+  @value: @num * (100% / 12);
+  flex-basis: @value;
+  // flex: 0 0 @value;
+  width: @value;
+}

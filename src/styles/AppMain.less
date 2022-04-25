@@ -1,0 +1,79 @@
+// Import utils files
+@import url('./less/reset.less');
+@import url('./less/all_variables.less');
+@import url('./less/_mixins.less');
+@import url('./less/icon.less');
+
+// Start of App Less styles
+.App {
+  height: 100%;
+}
+
+.zm-layout {
+  display: flex;
+  flex-direction: column;
+
+  height: 100%;
+}
+
+////---------------------- START OF LAYOUT_TOP -----------------------
+
+.zm-layout__top {
+  flex-grow: 1;
+
+  width: 100%;
+  display: flex;
+  flex-wrap: nowrap;
+
+  // debug only
+  // justify-content: space-evenly;
+}
+
+// SUB COMPONENT INSIDE LAYOUT_TOP
+
+// LAYOUT LEFT NAVBAR
+.zm-layout__left {
+  // desktop-max-down rules
+  .col-span(2);
+
+  .tablet-only( {
+      .col-span(1);
+  });
+
+  .mobile( {
+      .col-span(2);
+  });
+}
+
+// LAYOUT CENTER MAIN CONTENT
+.zm-layout__center {
+  flex-grow: 1;
+  // .col-span(7);
+  // .tablet({.col-span(11);});
+  // .mobile({.col-span(10);});
+}
+
+.zm-layout__right {
+  .col-span(3);
+
+  .tablet( {
+      display: none;
+  });
+}
+
+//----------------------- END OF LAYOUT_TOP -----------------------
+
+.zm-layout__bottom {
+  height: @height-footer;
+
+  // debug only
+  background-color: @bg-color;
+}
+
+// END OF LAYOUT CLASSES
+
+//----------------------- START OF COMPONENTS -----------------------
+
+// .zm-navbar {
+
+// }

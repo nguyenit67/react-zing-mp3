@@ -1,0 +1,30 @@
+{
+  "compilerOptions": {
+    // this is implicitly set in a `jsconfig.json` so we have to do it manually here
+    "allowJs": true,
+    "checkJs": true,
+    "noEmit": true,
+    "outDir": "dist", // this essentially disables the compilation errors by telling vs code where files would be put if it were to compile (which it won't because this isn't a real typescript project)
+    "module": "es6",
+    "target": "es6",
+    "jsx": "react-jsx",
+    // Do these as normal to your liking for your project
+    "baseUrl": "src",
+    "moduleResolution": "node",
+    // "lib": [
+    //   "ES2017.Object",
+    //   "DOM",
+    //   "DOM.Iterable",
+    // ]
+    "paths": {
+      "@/*": [
+        "./*"
+      ],
+    }
+  },
+  // only treat files in here as js source (thus ignoring `node_modules` and your fake output directory above)
+  "include": [
+    "src",
+    // "src/**/*",
+  ]
+}

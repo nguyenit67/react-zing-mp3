@@ -1,0 +1,74 @@
+/**
+  Josh's Custom CSS Reset
+  https://www.joshwcomeau.com/css/custom-css-reset/
+ *
+**/
+
+/*
+  1. Use a more-intuitive box-sizing model.
+*/
+/* prettier-ignore */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+/*
+  2. Remove default margin
+*/
+/* prettier-ignore */
+* {
+  margin: 0;
+}
+/*
+  2.5 Remove default padding
+*/
+/* prettier-ignore */
+ul {
+  padding: 0; // nguyenit67's custom reset
+}
+/*
+  3. Allow percentage-based heights in the application
+*/
+/* prettier-ignore */
+html, body, #root, #__next { // for framework website React.js and Next.js
+  height: 100%;
+}
+/*
+  Typographic tweaks!
+  4. Add accessible line-height
+  5. Improve text rendering
+*/
+/* prettier-ignore */
+body {
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+/*
+  6. Improve media defaults
+*/
+/* prettier-ignore */
+img, picture, video, canvas, svg {
+  display: block;
+  max-width: 100%;
+}
+/*
+  7. Remove built-in form typography styles
+*/
+/* prettier-ignore */
+input, button, textarea, select {
+  font: inherit;
+}
+/*
+  8. Avoid text overflows
+*/
+/* prettier-ignore */
+p, h1, h2, h3, h4, h5, h6 {
+  overflow-wrap: break-word;
+}
+/*
+  9. Create a root stacking context
+*/
+/* prettier-ignore */
+
+#root, #__next {
+  isolation: isolate;
+}

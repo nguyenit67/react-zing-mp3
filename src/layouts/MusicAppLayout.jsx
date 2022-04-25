@@ -5,7 +5,7 @@ import PlaylistBar from '@/components/PlaylistBar';
 
 function MusicAppLayout({ children }) {
   return (
-    <div className="zm-layout">
+    <div className="zm-layout darkmode">
       <div className="zm-layout__top">
         <div className="zm-layout__left">
           <NavBar />

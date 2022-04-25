@@ -1,79 +1,90 @@
 import clsx from 'clsx';
+import { Link as RouterLink } from 'react-router-dom';
 // @ts-ignore
 
 function NavBar() {
-  const list1 = [
+  const primaryList = [
     {
       title: 'Cá nhân',
-      iconClassName: 'ic-zm-Library',
+      renderIcon: <i className="fa-solid fa-headphones"></i>,
     },
     {
       title: 'Khám Phá',
-      iconClassName: 'ic-zm-Disk',
+      renderIcon: <i className="fa-solid fa-compact-disc"></i>,
     },
     {
       title: '#zingchart',
-      iconClassName: 'ic-zm-ZChart',
+      renderIcon: <i className="fa-solid fa-chart-line"></i>,
     },
     {
       title: 'Radio',
-      iconClassName: 'ic-zm-Radio',
+      renderIcon: <i className="fa-solid fa-podcast"></i>,
     },
     {
-      title: 'Cá nhân',
-      iconClassName: 'ic-zm-Feed',
+      title: 'Theo dõi',
+      renderIcon: <i className="fa-solid fa-newspaper"></i>,
     },
   ];
 
-  const list2 = [
+  const secondList = [
     {
       title: 'Nhạc mới',
-      iconClassName: 'ic-zm-Library',
+      renderIcon: <i className="fa-solid fa-music"></i>,
     },
     {
       title: 'Thể loại',
-      iconClassName: 'ic-zm-Disk',
+      renderIcon: <i className="fa-solid fa-guitar"></i>,
     },
     {
       title: 'Top 100',
-      iconClassName: 'ic-zm-ZChart',
+      renderIcon: <i className="fa-solid fa-star"></i>,
     },
     {
       title: 'Music Video',
-      iconClassName: 'ic-zm-Radio',
+      renderIcon: <i className="fa-brands fa-youtube"></i>,
     },
   ];
 
+  const renderList = (list) => (
+    <div className="menu__list">
+      {list.map((item, index) => (
+        <div key={index} className="menu__item">
+          <RouterLink to={item.href || ''} className="navbar__link">
+            {item.renderIcon}
+            <span className="navbar__link-text">{item.title}</span>
+            {item.append}
+          </RouterLink>
+        </div>
+      ))}
+    </div>
+  );
+
   return (
-    <aside className="zm-navbar">
-      <div className="zm-navbar__logo">
-        <img src="https://zmp3-static.zmdcdn.me/skins/zmp3-v6.1/images/backgrounds/logo-dark.svg" alt="Zing MP3 logo" />
+    <div className="navbar">
+      <div className="navbar__logo">
+        <div className="letters-logo">
+          <span className="logo-letter--N">N</span>
+          <span className="logo-letter--o">o</span>
+          <span className="logo-letter--k">w</span>
+          {/* <span className="logo-letter--i">i</span> */}
+          <span className="logo-letter--normal">mp3</span>
+        </div>
+
+        <div className="navbar__logo-image"></div>
       </div>
 
-      <nav>
-        <ul className="list-none">
-          {list1.map((item, index) => (
-            <li key={index}>
-              <i className={item.iconClassName}></i>
-              <span>{item.title}</span>
-              {item.append}
-            </li>
-          ))}
-        </ul>
+      <div className="navbar__main-menu">{renderList(primaryList)}</div>
+      <hr className="navbar__menu-divider" />
 
-        <hr />
+      <div className="navbar__sub-menu">{renderList(secondList)}</div>
 
-        <ul className="list-none">
-          {list2.map((item, index) => (
-            <li key={index}>
-              <i className={item.iconClassName}></i>
-              <span>{item.title}</span>
-              {item.append}
-            </li>
-          ))}
-        </ul>
-      </nav>
-    </aside>
+      <div className="navbar__bottom">
+        <button className="zm-button">
+          <i className="fa-solid fa-plus"></i>
+          <span className="navbar__button-text">Tạo playlist mới</span>
+        </button>
+      </div>
+    </div>
   );
 }
 

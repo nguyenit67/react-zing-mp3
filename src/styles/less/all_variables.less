@@ -1,3 +1,58 @@
+:root {
+  --main-bg: #fff;
+  --main-color: #4267b2;
+
+  --txt-main-color: #222;
+  --txt-second-color: #8d8d8d;
+  --txt-white-color: #fff;
+
+  --btn-main-bg: var(--main-bg);
+  --btn-main-color: #fff;
+
+  --blue-color: #4267b2;
+  --orange-color: #fbb96b;
+  --pink-color: #fe7e73;
+  --white-color: #fff;
+  --black-color: #000;
+
+  --header-height: 100px;
+  --header-tablet-height: 70px;
+  --header-mobile-height: 40px;
+  --header-sticky-height: 60px;
+
+  --box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+
+  --mobile-width: 600px;
+  --tablet-width: 1024px;
+
+  --light-blue: #e7f5ff;
+  --blue: #007bff;
+  --indigo: #6610f2;
+  --purple: #6f42c1;
+  --purple-red: #7200a1;
+  --pink: #e83e8c;
+  --red: #dc3545;
+  --orange: #fd7e14;
+  --yellow: #ffc107;
+  --green: #28a745;
+  --teal: #20c997;
+  --cyan: #17a2b8;
+  --light-gray: #f5f5f5;
+  --gray: #6c757d;
+  --gray-dark: #343a40;
+  --primary: #007bff;
+  --secondary: #6c757d;
+  --success: #28a745;
+  --info: #17a2b8;
+  --warning: #ffc107;
+  --danger: #dc3545;
+  --light: #f5f5f5;
+  --dark: #343a40;
+  --white: #fff;
+  --black: #000;
+  --dark-purple: #2f2739;
+}
+
 // SIZE AND SPACING
 @col1: 100% / 12;
 
@@ -8,5 +63,37 @@
 @mobile-width-max: 600px; // or 480px or 375px?
 
 // BACKGROUND AND COLORS
-// @text-color: #fff;
-@bg-color: #170f23;
+// @bg-color: #170f23;
+
+// // DARK MODE
+.darkmode {
+  --white: #000;
+  --black: #fff;
+  --light: #343a40;
+  --dark: #f5f5f5;
+  --gray: #343a40;
+  --gray-dark: #6c757d;
+  --light-gray: #343a40;
+  --transparent-white-1: rgba(0, 0, 0, 0.1);
+  --transparent-white-2: rgba(0, 0, 0, 0.2);
+  --transparent-white-3: rgba(0, 0, 0, 0.3);
+  --transparent-white-4: rgba(0, 0, 0, 0.4);
+  --transparent-white-5: rgba(0, 0, 0, 0.5);
+  --transparent-white-6: rgba(0, 0, 0, 0.6);
+  --transparent-white-7: rgba(0, 0, 0, 0.7);
+  --transparent-white-8: rgba(0, 0, 0, 0.8);
+  --transparent-white-9: rgba(0, 0, 0, 0.9);
+  --transparent-black-1: hsla(0, 0%, 100%, 0.1);
+  --transparent-black-2: hsla(0, 0%, 100%, 0.2);
+  --transparent-black-3: hsla(0, 0%, 100%, 0.3);
+  --transparent-black-4: hsla(0, 0%, 100%, 0.4);
+  --transparent-black-5: hsla(0, 0%, 100%, 0.5);
+  --transparent-black-6: hsla(0, 0%, 100%, 0.6);
+  --transparent-black-7: hsla(0, 0%, 100%, 0.7);
+  --transparent-black-8: hsla(0, 0%, 100%, 0.8);
+  --transparent-black-9: hsla(0, 0%, 100%, 0.9);
+  background-color: #fff;
+  background-color: var(--white);
+  color: #000;
+  color: var(--black);
+}

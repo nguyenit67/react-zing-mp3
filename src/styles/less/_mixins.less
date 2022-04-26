@@ -1,3 +1,8 @@
+.flex(@align-items: center, @justify-content: space-between) {
+  display: flex;
+  align-items: @align-items;
+  justify-content: @justify-content;
+}
 // WIDTH SCREEN RESPONSIVE
 // .screen-width-max(@max-width, @rules) {
 .media-breakpoint-max(@max-width, @rules) {
@@ -19,13 +24,25 @@
   }
 }
 
-// SPECIFIC SIZE DEVICES
+// SPECIFIC SIZE DEVICES (from large to small)
+.laptop(@rules) {
+  .media-breakpoint-max(1200px, @rules);
+}
+
+.laptop-only(@rules) {
+  .media-breakpoint-between(@tablet-width-max + 0.02px, 1200px, @rules);
+}
+
 .tablet(@rules) {
   .media-breakpoint-max(@tablet-width-max, @rules);
 }
 
 .tablet-only(@rules) {
   .media-breakpoint-between(@mobile-width-max + 0.02px, @tablet-width-max, @rules);
+}
+
+.sm-tablet(@rules) {
+  .media-breakpoint-max(768px - 0.02px, @rules);
 }
 
 .mobile(@rules) {

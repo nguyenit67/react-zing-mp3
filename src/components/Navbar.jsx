@@ -1,3 +1,4 @@
+import { pathKeys } from '@/constants';
 import clsx from 'clsx';
 import { Link as RouterLink } from 'react-router-dom';
 // @ts-ignore
@@ -5,6 +6,7 @@ import { Link as RouterLink } from 'react-router-dom';
 function NavBar() {
   const primaryList = [
     {
+      href: pathKeys.PERSONAL,
       title: 'Cá nhân',
       renderIcon: <i className="fa-solid fa-headphones"></i>,
     },

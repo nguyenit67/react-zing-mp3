@@ -1,0 +1,44 @@
+.zm-slider() {
+  width: 100%;
+
+  @ant-slider: ant-slider;
+
+  .@{ant-slider} {
+    .margin-y(0);
+
+    &-track {
+      background: #fff;
+    }
+
+    &-rail {
+      background-color: var(--gray);
+    }
+
+    &-handle {
+      border: none;
+      transition: all;
+      opacity: 0;
+
+      @side: 10px;
+      width: @side;
+      height: @side;
+      margin-top: -3px;
+    }
+
+    &:hover {
+      .@{ant-slider}-track {
+        background: #fff;
+        transform: scaleY(1.5);
+      }
+
+      .@{ant-slider}-rail {
+        background: var(--gray);
+        transform: scaleY(1.5);
+      }
+      .@{ant-slider}-handle {
+        // display: block;
+        opacity: 1;
+      }
+    }
+  }
+}

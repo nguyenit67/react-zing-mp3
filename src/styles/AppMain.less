@@ -1,9 +1,12 @@
+@import 'antd/dist/antd.css';
+
 // Import utils files
 @import url('./less/reset.less');
 @import url('./less/all_variables.less');
 @import url('./less/_base.less');
 @import url('./less/_mixins.less');
 @import url('./less/icon.less');
+@import url('./less/_custom.less');
 
 // Start of App Less styles
 .App {
@@ -26,6 +29,8 @@
   width: 100%;
   display: flex;
   flex-wrap: nowrap;
+
+  height: calc(100% - @height-footer);
 
   // debug only
   // justify-content: space-evenly;
@@ -162,9 +167,9 @@
   }
 
   &__sub-menu {
-    flex: 1 1;
+    flex: 1;
     padding: 10px 0;
-    // overflow: scroll;
+    overflow: auto;
   }
 
   &__bottom {
@@ -334,6 +339,198 @@
       .tablet({
         margin-left: 7px;
       });
+    }
+  }
+}
+
+// --------------------------- END OF HEADER (SEARCH + USER's functions) ---------------------------
+
+// --------------------------- START OF BOTTOM PLAYERBAR (SONG PLAYER CONTROL at footer) ---------------------------
+
+.zm-player {
+  .flex();
+  height: 100%;
+
+  &__left,
+  &__center,
+  &__right {
+    .padding-x(10px);
+  }
+
+  &__left {
+    .col-span(3);
+
+    .tablet({
+      display: none;
+    });
+  }
+
+  &__center {
+    .col-span(6);
+
+    .tablet({
+      .col-span(12);
+    });
+  }
+
+  &__right {
+    .col-span(3);
+
+    .tablet({
+      display: none;
+    });
+  }
+}
+
+.media {
+  .flex(@justify-content: flex-start);
+
+  &__thumbnail {
+    border-radius: 5px;
+    height: 64px;
+    margin-right: 10px;
+    min-width: 64px;
+    overflow: hidden;
+    width: 64px;
+
+    & > img {
+      height: 100%;
+      object-fit: cover;
+      width: 100%;
+    }
+  }
+
+  &__content {
+    .media__name {
+      -webkit-line-clamp: 1;
+      line-clamp: 1;
+      -webkit-box-orient: vertical;
+      display: -webkit-box;
+      font-size: 14px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .media__author {
+      font-size: 12px;
+      opacity: 0.6;
+    }
+  }
+
+  &__actions {
+    .flex(center, center);
+    margin-left: 4px;
+
+    .zm-button {
+      background-color: transparent;
+      border-radius: 50%;
+      color: #170f23;
+      color: var(--dark);
+      padding: 0;
+      text-align: center;
+      width: 36px;
+
+      font-size: 14px;
+      height: 36px;
+    }
+
+    .zm-button:hover {
+      background-color: var(--transparent-black-3);
+    }
+  }
+}
+
+.player-control {
+  .flex(center, center);
+  flex-flow: column;
+
+  &__top {
+    flex-grow: 1;
+    .flex(center, center);
+    // height: 50px;
+    // margin-bottom: -4px;
+  }
+
+  &__bar {
+    .flex(center, center);
+
+    .zm-button {
+      background-color: transparent;
+      border-radius: 50%;
+      color: #170f23;
+      color: var(--dark);
+      height: 36px;
+      padding: 0;
+      text-align: center;
+      width: 36px;
+
+      &:not(.zm-button-play):hover {
+        background-color: var(--transparent-black-3);
+      }
+    }
+    .zm-button + .zm-button {
+      margin-left: 10px;
+    }
+
+    .zm-button-play {
+      border: 1px solid;
+      height: 40px;
+      width: 40px;
+
+      &:hover {
+        color: var(--blue);
+      }
+    }
+  }
+
+  // THE BOTTOM SLIDER BAR of .player-control__center
+  // .player-control__bottom
+  &__bottom {
+    .flex(center, center);
+    position: relative;
+    width: 100%;
+    bottom: -4px;
+
+    .tablet({
+      width: 99%;
+    });
+  }
+
+  &__slider {
+    .zm-slider();
+  }
+
+  &__time {
+    text-align: center;
+  }
+
+  //*** RIGHT PART OF PLAYER CONTROLS INCLUDES VOLUME 🔊 CONTROLLER
+  &__right {
+    .flex(center, flex-end);
+
+    .zm-button {
+      width: 36px;
+      min-width: 36px;
+      height: 36px;
+      padding: 0;
+      margin-right: 5px;
+      // height: 36px;
+      border-radius: 50%;
+      background-color: transparent;
+      color: var(--dark);
+
+      &:hover {
+        background-color: var(--transparent-black-3);
+      }
+    }
+  }
+
+  &__volume {
+    .flex(center, center);
+    width: 50%;
+
+    .volume-slider {
+      .zm-slider();
     }
   }
 }

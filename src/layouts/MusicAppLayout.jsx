@@ -1,7 +1,7 @@
 import Header from '@/components/Header';
 import NavBar from '@/components/Navbar';
 import PlayerBar from '@/components/PlayerBar';
-import PlaylistBar from '@/components/PlaylistBar';
+import SidebarRight from '@/components/SidebarRight';
 
 function MusicAppLayout({ children }) {
   return (
@@ -17,7 +17,7 @@ function MusicAppLayout({ children }) {
         </div>
 
         <div className="zm-layout__right">
-          <PlaylistBar />
+          <SidebarRight />
         </div>
       </div>
 

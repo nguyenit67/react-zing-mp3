@@ -7,7 +7,7 @@ import { Link as RouterLink } from 'react-router-dom';
 
 /**
  * @param {{
- *  currentSong: object;
+ *  currentSong?: object;
  * }} _props
  */
 export default function PlayerBar({ currentSong = {} }) {

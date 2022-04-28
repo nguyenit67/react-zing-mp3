@@ -20,6 +20,28 @@
   padding-top: @value;
   padding-bottom: @value;
 }
+.border-round() {
+  border-radius: 50px;
+}
+
+.zm-tab-bar {
+  .flex(center, center);
+  .border-round();
+  background-color: var(--transparent-black-1);
+  font-size: 12px;
+  padding: 3px;
+
+  &__item {
+    .border-round();
+    padding: 7px 15px;
+    cursor: pointer;
+
+    &.active {
+      background-color: var(--transparent-black-3);
+    }
+  }
+}
+
 // WIDTH SCREEN RESPONSIVE
 // .screen-width-max(@max-width, @rules) {
 .media-breakpoint-max(@max-width, @rules) {

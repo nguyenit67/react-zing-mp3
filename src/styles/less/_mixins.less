@@ -1,3 +1,76 @@
+.scrollbar() {
+  @scrollbar-size: 4px;
+  overflow: hidden overlay;
+  // margin-right: -@scrollbar-width;
+  // scrollbar-gutter: auto;
+
+  &::-webkit-scrollbar {
+    display: none;
+    opacity: 0;
+    transition: 300ms;
+  }
+
+  &:hover::-webkit-scrollbar {
+    display: block;
+    opacity: 1;
+    width: @scrollbar-size;
+    height: @scrollbar-size;
+    transition: 300ms;
+  }
+
+  /* Track */
+  &::-webkit-scrollbar-track {
+    border-radius: 10px;
+    background: transparent;
+  }
+
+  /* Handle */
+  &::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background: #888;
+  }
+
+  /* Handle on hover */
+  &::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+}
+
+.overlay() {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.short-title() {
+  -webkit-line-clamp: 1;
+  line-clamp: 1;
+  -webkit-box-orient: vertical;
+  display: -webkit-box;
+  font-size: 14px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.side-size(@value) {
+  width: @value;
+  height: @value;
+}
+
+.icon-round-button() {
+  .side-size(36px);
+  .border-round();
+  padding: 0;
+  color: var(--dark);
+  background-color: transparent;
+
+  &:hover {
+    background-color: var(--transparent-black-3);
+  }
+}
+
 .flex(@align-items: center, @justify-content: space-between) {
   display: flex;
   align-items: @align-items;

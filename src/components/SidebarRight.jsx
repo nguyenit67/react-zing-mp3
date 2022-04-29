@@ -1,4 +1,4 @@
-import SongPlayItem from '@/features/Song/components/SongPlayItem';
+import SongPlayItem from '@/features/Song/components/SongMediaItem';
 import { useState } from 'react';
 import ZmTabBar from './ZmComponents/ZmTabBar';
 

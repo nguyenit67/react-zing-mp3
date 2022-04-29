@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
 import { common } from '@/constants';
 import clsx from 'clsx';
+import { useState } from 'react';
 
 /**
  *
@@ -31,22 +30,22 @@ export default function SongMediaItem({ song = {} }) {
   };
 
   return (
-    <div className={clsx('play-item', { active: isActive })}>
-      <div className="play-item__content">
-        <div className="play-item__thumbnail">
+    <div className={clsx('media-item', { active: isActive })}>
+      <div className="media-item__content">
+        <div className="media-item__thumbnail">
           <img src={thumbnailUrl} alt={songName} />
           <button className="zm-button" onClick={handleClickPlayButton}>
             {playing ? <img src={common.SOUND_PLAYING_GIF} alt="" /> : <i className="fa-solid fa-play"></i>}
           </button>
         </div>
-        <div className="play-item__info">
-          <div className="play-item__name">{songName}</div>
-          <div className="play-item__author">
+        <div className="media-item__info">
+          <div className="media-item__name">{songName}</div>
+          <div className="media-item__author">
             <a href={`/author/${authorId}`}>{authorName}</a>
           </div>
         </div>
       </div>
-      <div className="play-item__actions">
+      <div className="media-item__actions">
         <button className="zm-button">
           {isFavorite ? <i className="fa-solid fa-heart"></i> : <i className="fa-regular fa-heart"></i>}
         </button>

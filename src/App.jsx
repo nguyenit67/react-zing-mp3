@@ -1,11 +1,16 @@
 import '@/styles/AppMain.less';
-import PlayerBar from './components/PlayerBar';
-import MusicAppLayout from './layouts/MusicAppLayout';
+import { Route, Routes } from 'react-router-dom';
+import MainAppLayout from './layouts/MainAppLayout';
+import DiscoverPage from './pages/Home';
 
 export default function App() {
   return (
     <div className="App">
-      <MusicAppLayout>Main Content</MusicAppLayout>
+      <MainAppLayout>
+        <Routes>
+          <Route path="/" element={<DiscoverPage />} />
+        </Routes>
+      </MainAppLayout>
     </div>
   );
 }

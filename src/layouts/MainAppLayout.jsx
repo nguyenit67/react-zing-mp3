@@ -3,7 +3,7 @@ import NavBar from '@/components/Navbar';
 import PlayerBar from '@/components/PlayerBar';
 import SidebarRight from '@/components/SidebarRight';
 
-function MusicAppLayout({ children }) {
+export default function MusicAppLayout({ children }) {
   return (
     <div className="zm-layout darkmode">
       <div className="zm-layout__top">
@@ -27,5 +27,3 @@ function MusicAppLayout({ children }) {
     </div>
   );
 }
-
-export default MusicAppLayout;

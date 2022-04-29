@@ -56,10 +56,10 @@
 
 // LAYOUT CENTER MAIN CONTENT
 .zm-layout__center {
-  flex-grow: 1;
-  // .col-span(7);
-  // .tablet({.col-span(11);});
-  // .mobile({.col-span(10);});
+  // flex-grow: 1;
+  .col-span(7);
+  .tablet({.col-span(11);});
+  .mobile({.col-span(10);});
 }
 
 .zm-layout__right {
@@ -83,6 +83,14 @@
   // background-color: var(--light);
 }
 
+// wrapper of every content section
+.main-content {
+  height: calc(100% - @height-header);
+  // margin-top: @height-header;
+  .scrollbar();
+  padding: 20px 60px 0 60px;
+}
+
 // END OF LAYOUT CLASSES
 
 //----------------------- START OF COMPONENTS -----------------------
@@ -90,6 +98,8 @@
 .navbar {
   --height-menu: 215px;
   --height-bottom: 50px;
+
+  font-size: 16px;
 
   display: flex;
   flex-flow: column;
@@ -170,7 +180,7 @@
   &__sub-menu {
     flex: 1;
     padding: 10px 0;
-    overflow: auto;
+    .scrollbar();
   }
 
   &__bottom {
@@ -403,13 +413,7 @@
 
   &__content {
     .media__name {
-      -webkit-line-clamp: 1;
-      line-clamp: 1;
-      -webkit-box-orient: vertical;
-      display: -webkit-box;
-      font-size: 14px;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      .short-title();
     }
 
     .media__author {
@@ -572,11 +576,11 @@
     @__content-height: calc(100% - @height-header);
     height: @__content-height;
     // max-height: @__content-height;
-    overflow: auto;
+    .scrollbar();
   }
 }
 
-.play-item {
+.media-item {
   .flex(center, space-between);
   border-radius: 5px;
   padding: 5px;
@@ -662,7 +666,7 @@
 
   &.active {
     background-color: var(--transparent-black-3);
-    .play-item__thumbnail .zm-button {
+    .media-item__thumbnail .zm-button {
       opacity: 1;
     }
 
@@ -680,8 +684,96 @@
       opacity: 1;
     }
 
-    .play-item__actions .zm-button {
+    .media-item__actions .zm-button {
       display: initial;
+    }
+  }
+}
+
+// ------------ HOME PAGE ------------
+.home__media-list + .home__media-list {
+  margin-top: 40px;
+}
+
+// SONG MEDIA CARD COMPONENT
+.media-card-list {
+  .flex(center, center);
+  .margin-x(-10px);
+}
+
+.media-card {
+  padding: 10px;
+
+  &__thumbnail {
+    position: relative;
+    overflow: hidden;
+    transition: 0.3s;
+    margin-bottom: 10px;
+
+    img {
+      transition: 0.3s;
+      border-radius: 5px;
+    }
+
+    &:hover {
+      img {
+        transform: scale(1.1);
+      }
+
+      .media-card__actions {
+        opacity: 1;
+      }
+    }
+  }
+
+  &__actions {
+    .overlay();
+    .flex(center, center);
+    opacity: 0;
+    background-color: var(--transparent-white-3);
+
+    .zm-button {
+      .icon-round-button();
+      .side-size(42px);
+    }
+  }
+
+  &__name {
+    .short-title();
+  }
+
+  &__author {
+    font-size: 12px;
+    opacity: 0.6;
+  }
+}
+
+.author-list {
+  .flex(center, normal);
+}
+
+.author-item {
+  .padding-x(10px);
+
+  &__thumbnail {
+    border-radius: 50%;
+    height: 150px;
+    margin-bottom: 20px;
+    overflow: hidden;
+    width: 150px;
+  }
+
+  &__name {
+    font-size: 16px;
+    text-align: center;
+  }
+
+  &:hover {
+    img {
+      overflow: hidden;
+      transition: 0.3s;
+      opacity: 0.8;
+      transform: scale(1.1);
     }
   }
 }

@@ -713,6 +713,7 @@
     img {
       transition: 0.3s;
       border-radius: 5px;
+      .image-cover();
     }
 
     &:hover {
@@ -761,6 +762,10 @@
     margin-bottom: 20px;
     overflow: hidden;
     width: 150px;
+
+    img {
+      .image-cover();
+    }
   }
 
   &__name {
@@ -775,5 +780,16 @@
       opacity: 0.8;
       transform: scale(1.1);
     }
+  }
+}
+
+// ------ END OF AUTHOR & SONG MEDIA LIST & ITEMS ------
+
+// ------------ START OF AUTHOR DETAIL PAGE  ------------
+
+.author-detail-page {
+  .zm-title {
+    margin-bottom: 30px;
+    font-size: 1.35em;
   }
 }

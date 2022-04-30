@@ -1,4 +1,6 @@
 import SongPlayItem from '@/features/Song/components/SongMediaItem';
+import SongMediaList from '@/features/Song/components/SongMediaList';
+import getRandomSongs from '@/features/Song/utils/getRandomSongs';
 import { useState } from 'react';
 import ZmTabBar from './ZmComponents/ZmTabBar';
 
@@ -40,11 +42,7 @@ export default function SidebarRight() {
         </div>
       </div>
       <div className="sidebar-right__content">
-        <div className="song-play-list">
-          {songList.map((song, index) => (
-            <SongPlayItem key={index} song={song} />
-          ))}
-        </div>
+        <SongMediaList type="list" songList={getRandomSongs(5)} />
       </div>
     </div>
   );

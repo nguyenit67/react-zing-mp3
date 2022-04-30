@@ -1,5 +1,7 @@
 import AuthorItem from '@/features/Author/components/AuthorItem';
-import SongMediaCard from '@/features/Song/components/SongMediaCard';
+import SongMediaList from '@/features/Song/components/SongMediaList';
+import getRandomSongs from '@/features/Song/utils/getRandomSongs';
+import { SAMPLE_AUTHOR } from '@/types';
 
 export default function Home() {
   return (
@@ -7,7 +9,7 @@ export default function Home() {
       <div className="home__media-list">
         <div className="author-list">
           {Array.from(Array(5)).map(() => (
-            <AuthorItem author={{}} />
+            <AuthorItem author={SAMPLE_AUTHOR} />
           ))}
         </div>
       </div>
@@ -16,11 +18,7 @@ export default function Home() {
         <div className="home__media-list">
           <h3 className="zm-title">Nhạc mới mỗi ngày</h3>
 
-          <div className="media-card-list">
-            {Array.from(Array(5)).map(() => (
-              <SongMediaCard />
-            ))}
-          </div>
+          <SongMediaList type="card" songList={getRandomSongs(5)} />
         </div>
       ))}
     </div>

@@ -695,6 +695,22 @@
   margin-top: 40px;
 }
 
+.home__artists-slider {
+  .margin-x(-15px);
+}
+
+// .home__artists-slider .zm-button {
+//   // background-color: var(--transparent-black-1); // this copy
+//   background-color: hsla(0, 0%, 100%, 0.15); // this better
+//   .side-size(50px);
+//   border-radius: 50px;
+//   padding: 0;
+
+//   color: var(--white);
+//   font-size: 18px;
+//   text-align: center;
+// }
+
 // SONG MEDIA CARD COMPONENT
 .media-card-list {
   .flex(center, center);
@@ -765,6 +781,7 @@
 
     img {
       .image-cover();
+      transition: 0.3s;
     }
   }
 
@@ -776,7 +793,6 @@
   &:hover {
     img {
       overflow: hidden;
-      transition: 0.3s;
       opacity: 0.8;
       transform: scale(1.1);
     }
@@ -791,5 +807,45 @@
   .zm-title {
     margin-bottom: 30px;
     font-size: 1.35em;
+  }
+}
+
+// ------ START OF PERSONAL PAGE (SONGS, PLAYLISTS  ------
+.personal-page {
+  &__avatar {
+    width: 100%;
+    height: auto;
+    margin-bottom: 20px;
+
+    img {
+      border-radius: 50%;
+      margin: auto;
+      width: 120px;
+    }
+  }
+
+  &__profile-name {
+    font-size: 32px;
+    text-align: center;
+    font-weight: 700;
+    margin-bottom: 30px;
+  }
+
+  &__tab-bar {
+    .flex(center, center);
+    margin-bottom: 30px;
+  }
+
+  &__song-list {
+    margin-bottom: 50px;
+  }
+
+  .zm-tab-bar__item {
+    padding: 8px 25px;
+    text-transform: uppercase;
+  }
+
+  &__song-list .zm-title {
+    margin-bottom: 30px;
   }
 }

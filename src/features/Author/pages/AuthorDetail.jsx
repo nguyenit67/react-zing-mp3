@@ -4,7 +4,7 @@ import { randomIntBetween } from '@/utils';
 import { Col, Row } from 'antd';
 import { useParams } from 'react-router-dom';
 
-export default function AuthorDetail() {
+export default function AuthorDetailPage() {
   const { authorId } = useParams();
 
   const author = {}; // load from author

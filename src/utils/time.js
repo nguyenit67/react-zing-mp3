@@ -14,5 +14,3 @@ export const formatTime = (number) => {
 export function padLeadingZero(value) {
   return value > 9 ? value : `0${value}`;
 }
-
-console.log(getFormattedDateTime());

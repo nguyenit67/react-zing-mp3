@@ -1,8 +1,7 @@
-import SongPlayItem from '@/features/Song/components/SongMediaItem';
 import SongMediaList from '@/features/Song/components/SongMediaList';
 import getRandomSongs from '@/features/Song/utils/getRandomSongs';
 import { useState } from 'react';
-import ZmTabBar from './ZmComponents/ZmTabBar';
+import ZmTabBar from './ZComponents/ZmTabBar';
 
 export default function SidebarRight() {
   const [tab, setTab] = useState('1');

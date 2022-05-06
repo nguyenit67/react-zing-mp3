@@ -8,10 +8,13 @@ import { useState } from 'react';
  * @param {{
  *  song: import('@/types').Song
  *  type: 'card-item'  | 'list-item'
+ *  durationInvisible: boolean
  * }} _props
  */
 
-export default function SongMediaItem({ song, type: displayType = 'list-item' }) {
+export default function SongMediaItem({ song, type: displayType = 'list-item', durationInvisible = false }) {
+  const showDuration = !durationInvisible;
+
   const {
     thumbnailUrl = 'https://i.scdn.co/image/ab67616d0000b273ba5db46f4b838ef6027e6f96',
     title: songName = 'Never Gonna Give You Up (500)',

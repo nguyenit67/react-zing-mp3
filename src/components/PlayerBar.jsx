@@ -1,4 +1,6 @@
 import { common } from '@/constants';
+import renderAuthorsLink from '@/features/Song/utils/renderAuthorsLink';
+import { SAMPLE_AUTHOR } from '@/types';
 import { formatTime } from '@/utils';
 import { Divider, Slider } from 'antd';
 import { formatCountdown, formatTimeStr } from 'antd/lib/statistic/utils';
@@ -6,18 +8,20 @@ import { useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 
 /**
- * @param {{
- *  currentSong?: object;
- * }} _props
+ * @typedef {import('@/types').Song} Song
  */
-export default function PlayerBar({ currentSong = {} }) {
+
+export default function PlayerBar() {
+  /** @type Song|any  */
+  const currentSong = {};
+
   const [currentTime, setCurrentTime] = useState(0);
   const [volume, setVolume] = useState(100);
 
   const {
-    name: songName = 'Never Gonna Give You Up',
+    title: songTitle = 'Never Gonna Give You Up',
     thumbnailUrl = common.PLACEHOLDER,
-    firstAuthor: { name: authorName = 'Rick Atsley' } = {},
+    authors = [SAMPLE_AUTHOR],
     duration: totalTime = 150,
   } = currentSong;
 
@@ -27,16 +31,14 @@ export default function PlayerBar({ currentSong = {} }) {
         {/* should be a separate component */}
         <div className="media">
           <div className="media__thumbnail">
-            <img src={thumbnailUrl} alt={songName} />
+            <img src={thumbnailUrl} alt={songTitle} />
           </div>
 
           <div className="media__content">
             <div className="media__name">
-              <a href="#0">{songName}</a>
+              <a href="#0">{songTitle}</a>
             </div>
-            <div className="media__author">
-              <a href="#0">{authorName}</a>
-            </div>
+            <div className="media__author">{renderAuthorsLink(authors)}</div>
           </div>
 
           <div className="media__actions">

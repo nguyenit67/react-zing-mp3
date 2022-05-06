@@ -1,5 +1,5 @@
 const pathKeys = {
-  PERSONAL: '/ca-nhan',
+  PERSONAL: '/mymusic',
   ZINGCHART: '/chart',
   RADIO: '/radio',
   FOLLOW: '/theo-doi',

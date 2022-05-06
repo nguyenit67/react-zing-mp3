@@ -15,6 +15,8 @@
  *   title: string;
  *   thumbnailUrl: string;
  *   authors: Author[];
+ *   duration: number;
+ *   songUrl: string;
  *   isActive: boolean;
  *   isPlaying: boolean;
  *   isFavorite: boolean;

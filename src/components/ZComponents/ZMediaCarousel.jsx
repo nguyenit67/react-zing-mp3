@@ -1,5 +1,6 @@
 import clsx from 'clsx';
 import React, { useEffect, useState } from 'react';
+import { useLayoutEffect } from 'react';
 
 /**
  * @template ItemType
@@ -15,19 +16,23 @@ import React, { useEffect, useState } from 'react';
  * }} _props
  */
 export default function ZMediaCarousel({ dataSource, renderItem, numberOfShowSlides = 3 }) {
+  const numberOfItems = dataSource.length;
   const [activeIndex, setActiveIndex] = useState(0);
 
   const indexList = dataSource.map((_, index) => index);
   const displayIndexes = indexList.concat(indexList).slice(activeIndex, activeIndex + numberOfShowSlides);
 
-  // console.log(displayIndexes);
+  console.log(displayIndexes);
   // debugger;
 
-  useEffect(() => {}, []);
-
+  /**
+   * @param {number} step
+   */
   const navigateTo = (step) => {
-    const targetIndex = (activeIndex + step + dataSource.length) % dataSource.length;
-    setActiveIndex(targetIndex);
+    setActiveIndex((previousIndex) => {
+      const targetIndex = (previousIndex + step + numberOfItems) % numberOfItems;
+      return targetIndex;
+    });
   };
 
   const goPrev = () => {
@@ -37,6 +42,14 @@ export default function ZMediaCarousel({ dataSource, renderItem, numberOfShowSli
   const goNext = () => {
     navigateTo(1);
   };
+
+  useLayoutEffect(() => {
+    const interval = setInterval(() => {
+      console.log('tick');
+      goNext();
+    }, 3000);
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <div className="zm-gallery">
@@ -55,15 +68,16 @@ export default function ZMediaCarousel({ dataSource, renderItem, numberOfShowSli
             <div
               className={clsx('zm-gallery__slide', isShow ? 'show' : 'hide')}
               key={item.id}
-              style={
-                isShow
-                  ? {
-                      transform: `scale(1) translateX(${position * 100}%)`,
-                      width: `${100 / numberOfShowSlides}%`,
-                      zIndex: isFront ? 9 : 1,
-                    }
-                  : {}
-              }
+              style={{
+                width: `${100 / numberOfShowSlides}%`,
+                ...(isShow && {
+                  // transform: 'translateX(0)',
+                  left: `${(position / numberOfShowSlides) * 100}%`,
+                  zIndex: isFront ? 9 : 1,
+                  // for debug only
+                  // opacity: 0,
+                }),
+              }}
             >
               <div className="zm-gallery__slide-inner">{renderItem(item.data)}</div>
             </div>

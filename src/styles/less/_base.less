@@ -48,23 +48,29 @@ a {
     position: absolute;
     height: 100%;
     padding: 15px;
-    transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out, z-index 0s linear 0.25s;
+    transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out, z-index 0s linear 0.25s, left 0.5s ease-in-out;
     // .col-span(4); // width: 33.33%
 
     &.show {
+      // transform: translateX(0);
       z-index: 1;
       opacity: 1;
+      left: 0;
     }
 
     &.hide {
-      transform: scale(0.1) translateX(0);
-      // left: 50%;
+      transform: scale(0.1) translateX(-50%);
+      left: 50%;
+      // right: 50%;
       z-index: 0;
       opacity: 0;
+      // for debug
+      // opacity: 1;
     }
 
     &-inner {
       height: 100%;
+      width: 100%;
       border-radius: 8px;
       overflow: hidden;
     }

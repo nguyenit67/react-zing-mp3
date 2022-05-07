@@ -67,7 +67,8 @@ function NavBar() {
         <div className="letters-logo">
           <span className="logo-letter--N">N</span>
           <span className="logo-letter--o">o</span>
-          <span className="logo-letter--k">w</span>
+          <span className="logo-letter--k">v</span>
+          <span className="logo-letter--i">a</span>
           {/* <span className="logo-letter--i">i</span> */}
           <span className="logo-letter--normal">mp3</span>
         </div>

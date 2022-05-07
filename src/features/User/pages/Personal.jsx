@@ -1,9 +1,10 @@
 import { Col, Row } from 'antd';
 import clsx from 'clsx';
-import { Link, NavLink, Route, Routes, useMatch, useResolvedPath } from 'react-router-dom';
+import { NavLink, Route, Routes } from 'react-router-dom';
 import PersonalArtistList from '../components/PersonalArtistList';
 import PersonalOverview from '../components/PersonalOverview';
 import PersonalSongList from '../components/PersonalSongList';
+import { Helmet } from 'react-helmet';
 
 const tabList = [
   {
@@ -34,6 +35,10 @@ export default function PersonalPage() {
 
   return (
     <div className="personal-page">
+      <Helmet>
+        <title>Nhạc cá nhân | Bài hát, album, playlist</title>
+      </Helmet>
+
       <Row>
         <Col span={24} className="zm-column">
           <div className="personal-page__header">

@@ -10,18 +10,28 @@ import { useLayoutEffect } from 'react';
 /**
  * @template ItemType
  * @param {{
+ *  type?: 'default' | 'overlap';
  *  dataSource: SliderItem<ItemType>[];
  *  renderItem: (item: ItemType, index?: number) => React.ReactNode;
  *  numberOfShowSlides?: number;
+ *  autoPlay?: boolean;
  * }} _props
  */
-export default function ZMediaCarousel({ dataSource, renderItem, numberOfShowSlides = 3 }) {
+export default function ZMediaCarousel({
+  type: carouselType = 'default',
+  dataSource,
+  renderItem,
+  numberOfShowSlides = 3,
+  autoPlay = true,
+}) {
   const numberOfItems = dataSource.length;
   const [activeIndex, setActiveIndex] = useState(0);
 
   const indexList = dataSource.map((_, index) => index);
   const displayIndexes = indexList.concat(indexList).slice(activeIndex, activeIndex + numberOfShowSlides);
 
+  // for debug only
+  // autoPlay = false;
   console.log(displayIndexes);
   // debugger;
 
@@ -35,26 +45,29 @@ export default function ZMediaCarousel({ dataSource, renderItem, numberOfShowSli
     });
   };
 
-  const goPrev = () => {
+  const goToPrevSlide = () => {
     navigateTo(-1);
   };
 
-  const goNext = () => {
+  const goToNextSlide = () => {
     navigateTo(1);
   };
 
   useLayoutEffect(() => {
-    const interval = setInterval(() => {
-      console.log('tick');
-      goNext();
+    if (!autoPlay) return;
+
+    const autoPlayInterval = setInterval(() => {
+      // console.log('tick');
+      goToNextSlide();
     }, 3000);
-    return () => clearInterval(interval);
-  }, []);
+
+    return () => clearInterval(autoPlayInterval);
+  }, [autoPlay]);
 
   return (
-    <div className="zm-gallery">
+    <div className={clsx('zm-gallery', { [`style-${carouselType}`]: carouselType === 'overlap' })}>
       <div className="zm-gallery-prev">
-        <button className="zm-button zm-gallery-control-btn" onClick={goPrev}>
+        <button className="zm-button zm-gallery-control-btn" onClick={goToPrevSlide}>
           <i className="fa-solid fa-chevron-left"></i>
         </button>
       </div>
@@ -64,21 +77,35 @@ export default function ZMediaCarousel({ dataSource, renderItem, numberOfShowSli
           const position = displayIndexes.indexOf(index);
           const isShow = position !== -1;
           const isFront = position > 0 && position < numberOfShowSlides - 1;
-          return (
-            <div
-              className={clsx('zm-gallery__slide', isShow ? 'show' : 'hide')}
-              key={item.id}
-              style={{
+
+          let itemStyle;
+
+          switch (carouselType) {
+            case 'overlap':
+              const subtract = numberOfShowSlides - position - 1;
+              const scaleRatio = 1 - subtract * 0.1; // 0.8; 0.9; 1;
+
+              itemStyle = {
+                ...(isShow && {
+                  transform: `scale(${scaleRatio}) translateX(${-subtract * 10}%)`,
+                  // right: `${subtract * 10}%`,
+                  zIndex: `${position + 2}`,
+                }),
+              };
+              break;
+
+            default:
+              itemStyle = {
                 width: `${100 / numberOfShowSlides}%`,
                 ...(isShow && {
-                  // transform: 'translateX(0)',
                   left: `${(position / numberOfShowSlides) * 100}%`,
                   zIndex: isFront ? 9 : 1,
-                  // for debug only
-                  // opacity: 0,
                 }),
-              }}
-            >
+              };
+              break;
+          }
+          return (
+            <div className={clsx('zm-gallery__slide', isShow ? 'show' : 'hide')} key={item.id} style={itemStyle}>
               <div className="zm-gallery__slide-inner">{renderItem(item.data)}</div>
             </div>
           );
@@ -86,7 +113,7 @@ export default function ZMediaCarousel({ dataSource, renderItem, numberOfShowSli
       </div>
 
       <div className="zm-gallery-next">
-        <button className="zm-button zm-gallery-control-btn" onClick={goNext}>
+        <button className="zm-button zm-gallery-control-btn" onClick={goToNextSlide}>
           <i className="fa-solid fa-chevron-right"></i>
         </button>
       </div>

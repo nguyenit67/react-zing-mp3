@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import SongMediaItem from './SongMediaItem';
 
 /**
@@ -6,14 +7,15 @@ import SongMediaItem from './SongMediaItem';
 
 /***
  * @param {{
- *  type?: 'card' | 'list'
- *  songList: Song[]
- *  durationInvisible?: boolean
+ *  type?: 'card' | 'list';
+ *  songList: Song[];
+ *  className?: string;
+ *  durationInvisible?: boolean;
  * }} _props
  */
-export default function SongMediaList({ songList = [], type = 'list', durationInvisible = false }) {
+export default function SongMediaList({ songList = [], type = 'list', className, durationInvisible = false }) {
   return (
-    <div className={type === 'card' ? 'media-card-list' : 'song-play-list'}>
+    <div className={clsx(className, type === 'card' ? 'media-card-list' : 'song-play-list')}>
       {songList.map((song, index) => (
         <SongMediaItem key={index} type={`${type}-item`} song={song} durationInvisible={durationInvisible} />
       ))}

@@ -691,7 +691,7 @@
 }
 
 // ------------ HOME PAGE ------------
-.home__media-list + .home__media-list {
+.home__media-list {
   margin-top: 40px;
 }
 
@@ -847,5 +847,21 @@
 
   &__song-list .zm-title {
     margin-bottom: 30px;
+  }
+
+  // Tab sections
+  &__overview &__overview__media-list {
+    height: 230px;
+    .scrollbar();
+
+    .media-item {
+      border-bottom: 1px solid var(--transparent-black-3);
+      border-radius: 3px;
+
+      &__actions .zm-button {
+        display: initial;
+        opacity: 1;
+      }
+    }
   }
 }

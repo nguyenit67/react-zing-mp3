@@ -1,5 +1,5 @@
 import { common } from '@/constants';
-import renderAuthorsLink from '@/features/Song/utils/renderAuthorsLink';
+import renderArtistsLinkText from '@/features/Song/utils/renderArtistsLinkText';
 import clsx from 'clsx';
 import { useState } from 'react';
 
@@ -8,7 +8,7 @@ import { useState } from 'react';
  * @param {{
  *  song: import('@/types').Song
  *  type: 'card-item'  | 'list-item'
- *  durationInvisible: boolean
+ *  durationInvisible?: boolean
  * }} _props
  */
 
@@ -16,24 +16,28 @@ export default function SongMediaItem({ song, type: displayType = 'list-item', d
   const showDuration = !durationInvisible;
 
   const {
-    thumbnailUrl = 'https://i.scdn.co/image/ab67616d0000b273ba5db46f4b838ef6027e6f96',
+    thumbnail: thumbnailUrl = 'https://i.scdn.co/image/ab67616d0000b273ba5db46f4b838ef6027e6f96',
     title: songName = 'Never Gonna Give You Up (500)',
 
+    artists: songArtists,
+  } = song;
+
+  const useSongMediaState = () => ({});
+  // prettier-ignore
+  const {   
     isActive = false,
     isPlaying = false,
     isFavorite = false,
-    authors: songAuthors,
-  } = song;
+    // @ts-ignore
+  } = useSongMediaState(song);
 
   const [playing, setPlaying] = useState(isPlaying || false);
 
   const handleClickPlayButton = () => {
     // this is for UI testing
-    if (!isActive) {
-      return;
+    if (isActive) {
+      setPlaying(!playing);
     }
-
-    setPlaying(!playing);
   };
 
   return (
@@ -57,7 +61,7 @@ export default function SongMediaItem({ song, type: displayType = 'list-item', d
 
           <div className="media-card__info">
             <div className="media-card__name">{songName}</div>
-            <div className="media-card__author">{renderAuthorsLink(songAuthors)}</div>
+            <div className="media-card__author">{renderArtistsLinkText(songArtists)}</div>
           </div>
         </div>
       )}
@@ -73,7 +77,7 @@ export default function SongMediaItem({ song, type: displayType = 'list-item', d
             </div>
             <div className="media-item__info">
               <div className="media-item__name">{songName}</div>
-              <div className="media-item__author">{renderAuthorsLink(songAuthors)}</div>
+              <div className="media-item__author">{renderArtistsLinkText(songArtists)}</div>
             </div>
           </div>
           <div className="media-item__actions">

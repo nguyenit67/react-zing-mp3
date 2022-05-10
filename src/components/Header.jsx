@@ -1,16 +1,20 @@
 import { pathKeys } from '@/constants';
+import { searchParamKeys } from '@/constants/pathKeys';
 import useNavigateSearch from '@/hooks/useNavigateSearch';
 import { useNavigate } from 'react-router-dom';
+
+const { QUERY_KEY } = searchParamKeys;
 
 export default function Header() {
   const navigate = useNavigate();
   const searchNavigate = useNavigateSearch();
 
-  const handleKeyUp = (event) => {
+  const handleKeyDown = (event) => {
     if (event.key === 'Enter') {
-      searchNavigate(pathKeys.SEARCH, {
-        q: event.target.value,
-      });
+      const params = {
+        [QUERY_KEY]: event.target.value,
+      };
+      searchNavigate(pathKeys.SEARCH, params);
     }
   };
 
@@ -36,7 +40,7 @@ export default function Header() {
               type="search"
               className="zm-input-text__input"
               placeholder="Nhập tên bài hát, nghệ sĩ hoặc MV..."
-              onKeyUp={handleKeyUp}
+              onKeyDown={handleKeyDown}
             />
           </div>
         </div>

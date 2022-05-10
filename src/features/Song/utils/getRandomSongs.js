@@ -1,4 +1,4 @@
-import { SAMPLE_AUTHOR } from '@/types';
+import { SAMPLE_ARTIST } from '@/types';
 
 /**
  * @typedef {import('@/types').Song} Song
@@ -10,6 +10,6 @@ import { SAMPLE_AUTHOR } from '@/types';
 export default function getRandomSongs(number = 5) {
   /**
    * @type {Partial<Song>[]}*/
-  const list = Array(number).fill({ authors: [SAMPLE_AUTHOR] });
+  const list = Array(number).fill({ artists: [SAMPLE_ARTIST] });
   return list;
 }

@@ -1,11 +1,18 @@
 import axios from 'axios';
 
-const axiosClient = axios.create({
-  baseURL: 'https://api.mangadex.org/',
-  headers: {
-    'Content-Type': 'application/json',
-  },
-});
+/**
+ * @description baseURL=https://stark-oasis-16236.herokuapp.com/https://zingmp3.vn
+ */
+
+const axiosClient = axios.create(
+  /** @type {import('axios').AxiosRequestConfig} */ {
+    baseURL: 'https://stark-oasis-16236.herokuapp.com/https://zingmp3.vn',
+    headers: {
+      'Content-Type': 'application/json',
+      // 'X-Requested-With': '*',
+    },
+  }
+);
 
 // Interceptors
 // Add a request interceptor

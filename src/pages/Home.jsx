@@ -1,35 +1,35 @@
 import ZMediaCarousel from '@/components/ZComponents/ZMediaCarousel';
-import AuthorItem from '@/features/Author/components/AuthorItem';
-import AuthorList from '@/features/Author/components/AuthorList';
+import ArtistList from '@/features/Artist/components/ArtistList';
+import getArtistLink from '@/features/Artist/utils/getArtistLink';
 import SongMediaList from '@/features/Song/components/SongMediaList';
 import getRandomSongs from '@/features/Song/utils/getRandomSongs';
-import { SAMPLE_AUTHOR } from '@/types';
-import { Link } from 'react-router-dom';
+import { SAMPLE_ARTIST } from '@/types';
 import { nanoid } from 'nanoid';
+import { Link } from 'react-router-dom';
 
 /**
- * @typedef {import('@/types').Author} Author
+ * @typedef {import('@/types').Artist} Artist
  */
 /**
- * @typedef {import('@/components/ZComponents/ZMediaCarousel').SliderItem<Author>} AuthorSliderItem
+ * @typedef {import('@/components/ZComponents/ZMediaCarousel').SliderItem<Artist>} ArtistSliderItem
  */
 
 /**
  * @param {string} imageUrl
- * @returns {AuthorSliderItem}
+ * @returns {ArtistSliderItem}
  */
 function createSliderItem(imageUrl) {
   return {
     id: nanoid(),
     data: {
-      ...SAMPLE_AUTHOR,
-      thumbnailUrl: imageUrl,
+      ...SAMPLE_ARTIST,
+      thumbnail: imageUrl,
     },
   };
 }
 
 export default function Home() {
-  const authorSlideList = [
+  const artistSlideList = [
     createSliderItem('https://i.scdn.co/image/ab6761610000e5eb2aa26cfdf3b785f171a4795c'),
     createSliderItem('https://i.scdn.co/image/ab6761610000e5ebc02d416c309a68b04dc94576'),
     createSliderItem('https://i.scdn.co/image/ab6761610000e5eb37db62ee361f796bef5b49a6'),
@@ -43,10 +43,10 @@ export default function Home() {
     <div className="home-page">
       <div className="home__artists-slider">
         <ZMediaCarousel
-          dataSource={authorSlideList}
-          renderItem={(author) => (
-            <Link to={`/author/${author.id}`}>
-              <img src={author.thumbnailUrl} alt={author.name} />
+          dataSource={artistSlideList}
+          renderItem={(artist) => (
+            <Link to={getArtistLink(artist)}>
+              <img src={artist.thumbnail} alt={artist.name} />
             </Link>
           )}
         />
@@ -59,7 +59,7 @@ export default function Home() {
       </div>
 
       <div className="home__media-list">
-        <AuthorList authorList={authorSlideList.map(({ data: author }) => author)} />
+        <ArtistList authorList={artistSlideList.map(({ data: author }) => author)} />
       </div>
 
       {renderHomeMediaList()}

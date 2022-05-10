@@ -3,9 +3,11 @@
 /**
  * @typedef {{
  *   id: string;
+ *   alias: string;
  *   name: string;
- *   thumbnailUrl?: string;
- * }} Author
+ *   thumbnail?: string;
+ *   songList?: Song[];
+ * }} Artist
  * */
 
 /**
@@ -13,19 +15,25 @@
  * @typedef {{
  *   id: string;
  *   title: string;
- *   thumbnailUrl: string;
- *   authors: Author[];
+ *   thumbnail: string;
+ *   artists: Artist[];
  *   duration: number;
- *   songUrl: string;
+ *   songUrl?: string;
+ * }} SongObject
+ * */
+
+/**
+ * @typedef {{
  *   isActive: boolean;
  *   isPlaying: boolean;
  *   isFavorite: boolean;
- * }} SongObject
- *  */
+ *   songUrl?: string;
+ * }} SongMediaState
+ */
 
 /*** @type {Author} */
 
-export const SAMPLE_AUTHOR = {
+export const SAMPLE_ARTIST = {
   id: '69',
   name: 'Rick Atsley',
 };

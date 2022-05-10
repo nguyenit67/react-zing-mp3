@@ -1,30 +1,31 @@
+import { pathKeys } from '@/constants';
+import ArtistDetailPage from '@/features/Artist/pages/ArtistDetailPage';
+import Personal from '@/features/User/pages/Personal';
+import AppLayout from '@/layouts/MainAppLayout';
+import Home from '@/pages/Home';
+import Search from '@/pages/Search';
 import '@/styles/AppMain.less';
+import { Helmet } from 'react-helmet-async';
 import { Navigate, Route, Routes } from 'react-router-dom';
-import { pathKeys } from './constants';
-import DetailAuthor from './features/Author/pages/AuthorDetail';
-import Personal from './features/User/pages/Personal';
-import MainAppLayout from './layouts/MainAppLayout';
-import Home from './pages/Home';
-import Search from './pages/Search';
-import { Helmet } from 'react-helmet';
+import { WEBSITE_TITLE } from '@/constants/common';
 
 export default function App() {
   return (
     <div className="App">
       <Helmet>
-        <title>Nova MP3</title>
+        <title>{WEBSITE_TITLE}</title>
       </Helmet>
 
-      <MainAppLayout>
+      <AppLayout>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/mymusic/*" element={<Personal />} />
-          <Route path="/author/:authorId" element={<DetailAuthor />} />
+          <Route path="/artist/:artistId" element={<ArtistDetailPage />} />
           <Route path={pathKeys.SEARCH} element={<Search />} />
 
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
-      </MainAppLayout>
+      </AppLayout>
     </div>
   );
 }

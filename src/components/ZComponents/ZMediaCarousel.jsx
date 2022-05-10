@@ -32,7 +32,7 @@ export default function ZMediaCarousel({
 
   // for debug only
   // autoPlay = false;
-  console.log(displayIndexes);
+  // console.log(displayIndexes);
   // debugger;
 
   /**
@@ -56,6 +56,7 @@ export default function ZMediaCarousel({
   useLayoutEffect(() => {
     if (!autoPlay) return;
 
+    goToNextSlide();
     const autoPlayInterval = setInterval(() => {
       // console.log('tick');
       goToNextSlide();

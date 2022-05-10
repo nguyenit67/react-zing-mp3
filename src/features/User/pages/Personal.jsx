@@ -4,7 +4,7 @@ import { NavLink, Route, Routes } from 'react-router-dom';
 import PersonalArtistList from '../components/PersonalArtistList';
 import PersonalOverview from '../components/PersonalOverview';
 import PersonalSongList from '../components/PersonalSongList';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 
 const tabList = [
   {
@@ -51,7 +51,12 @@ export default function PersonalPage() {
           <div className="personal-page__tab-bar">
             <div className="zm-tab-bar">
               {tabList.map((tab) => (
-                <NavLink to={tab.url} className={({ isActive }) => clsx('zm-tab-bar__item', { active: isActive })} end>
+                <NavLink
+                  to={tab.url}
+                  key={tab.title}
+                  className={({ isActive }) => clsx('zm-tab-bar__item', { active: isActive })}
+                  end
+                >
                   {tab.title}
                 </NavLink>
               ))}

@@ -8,13 +8,23 @@
 @import url('./less/icon.less');
 @import url('./less/_custom.less');
 
+:root {
+  // --app-bg-color: #37075d;
+  --app-bg-color: #2f074e;
+  --navbar-bg-color: #411465;
+  --footer-bg-color: #37075d;
+  --sidebar-right-bg-color: #411465;
+}
+
 // Start of App Less styles
 .App {
   height: 100%;
 }
 
+// .App-zm-layout
 .zm-layout {
-  background-color: #170f23;
+  // background-color: lighten(#170f23, 10%);
+  background-color: var(--app-bg-color);
   display: flex;
   flex-direction: column;
 
@@ -103,7 +113,10 @@
 
   display: flex;
   flex-flow: column;
-  background-color: var(--dark-purple);
+
+  // --dark-purple: lighten(hsl(265, 26%, 14%), 5%);
+  --dark-purple: #411465;
+  background-color: var(--navbar-bg-color);
   color: #f1f1f1;
 
   height: 100%;
@@ -361,6 +374,7 @@
 .zm-player {
   .flex();
   height: 100%;
+  background-color: var(--footer-bg-color);
 
   &__left,
   &__center,
@@ -545,6 +559,7 @@
 // --------------------------- START OF RIGHT PLAYLIST SIDEBAR (PLAYLIST at right sidebar) ---------------------------
 .sidebar-right {
   height: 100%;
+  background-color: var(--sidebar-right-bg-color);
 
   &__header {
     .flex(center, space-between);
@@ -702,7 +717,7 @@
 // .home__artists-slider .zm-button {
 //   // background-color: var(--transparent-black-1); // this copy
 //   background-color: hsla(0, 0%, 100%, 0.15); // this better
-//   .side-size(50px);
+//   .square(50px);
 //   border-radius: 50px;
 //   padding: 0;
 
@@ -751,7 +766,7 @@
 
     .zm-button {
       .icon-round-button();
-      .side-size(42px);
+      .square(42px);
     }
   }
 
@@ -801,12 +816,25 @@
 
 // ------ END OF AUTHOR & SONG MEDIA LIST & ITEMS ------
 
-// ------------ START OF AUTHOR DETAIL PAGE  ------------
+// ------------ START OF ARTIST DETAIL PAGE  ------------
 
-.author-detail-page {
+.artist-detail-page {
   .zm-title {
     margin-bottom: 30px;
     font-size: 1.35em;
+  }
+
+  // .zm-column {
+  //   height: 100%;
+  // }
+
+  .avatar-thumbnail-placeholder {
+    .fluid-square(100%);
+    // display: block;
+
+    .ant-skeleton-avatar {
+      .overlay();
+    }
   }
 }
 
@@ -866,7 +894,7 @@
   }
 }
 
-// ------------------ SEARCH PAGE ------------------
+// ---------------- SEARCH PAGE ----------------
 .search-page {
   &__info-text {
     margin-bottom: 30px;

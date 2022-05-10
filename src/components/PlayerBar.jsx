@@ -1,11 +1,9 @@
 import { common } from '@/constants';
-import renderAuthorsLink from '@/features/Song/utils/renderAuthorsLink';
-import { SAMPLE_AUTHOR } from '@/types';
+import renderArtistsLinkText from '@/features/Song/utils/renderArtistsLinkText';
+import { SAMPLE_ARTIST } from '@/types';
 import { formatTime } from '@/utils';
-import { Divider, Slider } from 'antd';
-import { formatCountdown, formatTimeStr } from 'antd/lib/statistic/utils';
+import { Slider } from 'antd';
 import { useState } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
 
 /**
  * @typedef {import('@/types').Song} Song
@@ -21,7 +19,7 @@ export default function PlayerBar() {
   const {
     title: songTitle = 'Never Gonna Give You Up',
     thumbnailUrl = common.PLACEHOLDER,
-    authors = [SAMPLE_AUTHOR],
+    artists = [SAMPLE_ARTIST],
     duration: totalTime = 150,
   } = currentSong;
 
@@ -38,7 +36,7 @@ export default function PlayerBar() {
             <div className="media__name">
               <a href="#0">{songTitle}</a>
             </div>
-            <div className="media__author">{renderAuthorsLink(authors)}</div>
+            <div className="media__author">{renderArtistsLinkText(artists)}</div>
           </div>
 
           <div className="media__actions">

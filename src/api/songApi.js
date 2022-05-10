@@ -1,10 +1,4 @@
-// @ts-nocheck
 import axiosClient from './axiosClient';
-
-export const QUALITY_MODES = {
-  DATA: 'data',
-  DATA_SAVER: 'data-saver',
-};
 
 const chapterApi = {
   /**

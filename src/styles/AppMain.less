@@ -13,7 +13,7 @@
   --app-bg-color: #2f074e;
   --navbar-bg-color: #411465;
   --footer-bg-color: #37075d;
-  --sidebar-right-bg-color: #411465;
+  --sidebar-right-bg-color: #37075d;
 }
 
 // Start of App Less styles
@@ -712,6 +712,23 @@
 
 .home__artists-slider {
   .margin-x(-15px);
+  height: 230px;
+
+  &.loading {
+    .flex(center, center);
+    flex-flow: row nowrap;
+
+    .home__slide-item-skeleton {
+      height: 100%;
+      .col-span(4);
+
+      padding: 15px;
+
+      .react-loading-skeleton {
+        height: 100%;
+      }
+    }
+  }
 }
 
 // .home__artists-slider .zm-button {

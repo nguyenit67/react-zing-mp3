@@ -1,20 +1,33 @@
 import clsx from 'clsx';
-import React, { useEffect, useState } from 'react';
-import { useLayoutEffect } from 'react';
+import { nanoid } from 'nanoid';
+import React, { useLayoutEffect, useState } from 'react';
 
 /**
- * @template ItemType
- * @typedef {{id: string | number, data: ItemType}} SliderItem
+ * @template DataItem
+ * @typedef {{id: string | number, data: DataItem}} SliderItem
  */
 
 /**
- * @template ItemType
+ * @template DataItem
+ * @param {DataItem[]} dataList
+ * @returns {SliderItem<DataItem>[]}
+ */
+export const createSlideList = (dataList) => {
+  return dataList.map((data) => ({
+    id: nanoid(),
+    data,
+  }));
+};
+
+/**
+ * @template DataItem
  * @param {{
  *  type?: 'default' | 'overlap';
- *  dataSource: SliderItem<ItemType>[];
- *  renderItem: (item: ItemType, index?: number) => React.ReactNode;
+ *  dataSource: SliderItem<DataItem>[];
+ *  renderItem: (item: DataItem, index?: number) => React.ReactNode;
  *  numberOfShowSlides?: number;
  *  autoPlay?: boolean;
+ *  skeleton?: boolean;
  * }} _props
  */
 export default function ZMediaCarousel({
@@ -23,6 +36,7 @@ export default function ZMediaCarousel({
   renderItem,
   numberOfShowSlides = 3,
   autoPlay = true,
+  skeleton = false,
 }) {
   const numberOfItems = dataSource.length;
   const [activeIndex, setActiveIndex] = useState(0);
@@ -56,7 +70,6 @@ export default function ZMediaCarousel({
   useLayoutEffect(() => {
     if (!autoPlay) return;
 
-    goToNextSlide();
     const autoPlayInterval = setInterval(() => {
       // console.log('tick');
       goToNextSlide();

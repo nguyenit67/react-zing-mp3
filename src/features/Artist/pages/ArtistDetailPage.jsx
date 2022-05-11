@@ -40,8 +40,6 @@ export default function ArtistDetailPage() {
     );
   }
 
-  console.log('ArtistDetailPage', artist);
-
   const {
     thumbnail: avatarUrl = 'https://i.scdn.co/image/ab6761610000e5ebaad54b2cf9044587eac7acdf',
     name: artistName = 'Justin Bieber',

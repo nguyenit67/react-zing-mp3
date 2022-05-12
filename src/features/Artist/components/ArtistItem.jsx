@@ -9,7 +9,7 @@ import getArtistLink from '../utils/getArtistLink';
 export default function ArtistItem({ artist, loading }) {
   const {
     thumbnail: thumbnailUrl = 'https://i.scdn.co/image/ab6761610000e5ebaad54b2cf9044587eac7acdf',
-    name: authorName = 'Unknow NCS Artist',
+    name: artistName = 'Unknow NCS Artist',
   } = artist;
 
   const artistLink = getArtistLink(artist);
@@ -21,12 +21,12 @@ export default function ArtistItem({ artist, loading }) {
           <Skeleton width={150} height={150} />
         ) : (
           <Link to={artistLink}>
-            <img src={thumbnailUrl} alt={authorName} />
+            <img src={thumbnailUrl} alt={artistName} />
           </Link>
         )}
       </div>
       <div className="artist-item__name">
-        {loading ? <Skeleton width={100} height={20} /> : <Link to={artistLink}>{authorName}</Link>}
+        {loading ? <Skeleton width={100} height={20} /> : <Link to={artistLink}>{artistName}</Link>}
       </div>
     </div>
   );

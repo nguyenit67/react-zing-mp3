@@ -1,8 +1,15 @@
 import ArtistList from '@/features/Artist/components/ArtistList';
-import { SAMPLE_ARTIST } from '@/types';
+import ArtistSkeletonList from '@/features/Artist/components/ArtistSkeletonList';
+import { useSpotlightArtists } from '@/features/queries';
 
 export default function PersonalArtistList() {
-  const artistList = Array(5).fill(SAMPLE_ARTIST);
+  const { data: artists, isLoading: isLoadingArtists } = useSpotlightArtists();
 
-  return <ArtistList artistList={artistList} />;
+  console.log('PersonalArtistList', artists, isLoadingArtists);
+
+  // debug only, delete when done
+  // return <ArtistSkeletonList count={5} />;
+
+  // @ts-ignore
+  return isLoadingArtists ? <ArtistSkeletonList count={5} /> : <ArtistList artistList={artists} />;
 }

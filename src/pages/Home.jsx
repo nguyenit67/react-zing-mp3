@@ -48,7 +48,7 @@ export default function Home() {
 
       <div className="home__media-list">
         {isLoadingArtists ? (
-          <ArtistList loading count={5} />
+          <ArtistList skeleton count={5} />
         ) : (
           <ArtistList
             // @ts-ignore

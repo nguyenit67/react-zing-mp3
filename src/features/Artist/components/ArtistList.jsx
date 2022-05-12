@@ -8,11 +8,11 @@ import ArtistItem from './ArtistItem';
 /**
  * @param {{
  *  artistList?: Artist[];
- *  loading?: boolean;
+ *  skeleton?: boolean;
  *  count?: number;
  * }} _props
  */
-export default function ArtistList({ artistList, loading, count }) {
+export default function ArtistList({ artistList, skeleton: loading, count }) {
   return (
     <div className="artist-list">
       {Array.from(artistList ?? Array(count)).map((artist, index) => (

@@ -26,7 +26,7 @@ export default function SongMediaSkeletonList({ type = 'list', className }) {
               </div>
             ))
           : [...Array(9).keys()].map((index) => (
-              <Row align="middle" style={{ padding: '5px' }}>
+              <Row key={index} align="middle" style={{ padding: '5px' }}>
                 <Col>
                   <Skeleton width={40} height={40} inline style={{ marginRight: '10px' }} />
                 </Col>

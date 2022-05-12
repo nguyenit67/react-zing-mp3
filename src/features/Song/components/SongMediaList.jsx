@@ -1,4 +1,4 @@
-import { Skeleton, Space } from 'antd';
+import { Col, Row, Skeleton, Space } from 'antd';
 import clsx from 'clsx';
 import { Fragment } from 'react';
 import SongMediaItem from './SongMediaItem';
@@ -32,7 +32,11 @@ export default function SongMediaList({
         ? Array.from(Array(5)).map((_, index) => (
             <Skeleton key={index} avatar={{ shape: 'square' }} title paragraph={{ rows: 1 }} />
           ))
-        : songList.map((song, index) => <SongMediaItem key={index} type={itemType} song={song} />)}
+        : songList.map((song, index) => (
+            // <Col xs={12} sm={8} md={6} >
+            <SongMediaItem key={index} type={itemType} song={song} />
+            // </Col>
+          ))}
     </div>
   );
 }

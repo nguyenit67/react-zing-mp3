@@ -16,9 +16,8 @@ export default function SongMediaItem({ song, type: displayType = 'list-item', d
   const showDuration = !durationInvisible;
 
   const {
-    thumbnail: thumbnailUrl = 'https://i.scdn.co/image/ab67616d0000b273ba5db46f4b838ef6027e6f96',
+    thumbnailM: thumbnailUrl = 'https://i.scdn.co/image/ab67616d0000b273ba5db46f4b838ef6027e6f96',
     title: songName = 'Never Gonna Give You Up (500)',
-
     artists: songArtists,
   } = song;
 

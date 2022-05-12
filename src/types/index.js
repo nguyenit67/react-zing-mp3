@@ -13,9 +13,10 @@
 /**
  * @typedef {SongObject} Song
  * @typedef {{
- *   id: string;
+ *   encodeId: string;
  *   title: string;
  *   thumbnail: string;
+ *   thumbnailM: string; // thumbnail with size 240x240
  *   artists: Artist[];
  *   duration: number;
  *   songUrl?: string;
@@ -31,8 +32,15 @@
  * }} SongMediaState
  */
 
-/*** @type {Author} */
+/**
+ * @template TItem
+ * @typedef {{
+ *   title: string;
+ *   items: TItem[];
+ * }} Section
+ */
 
+/** @type {Artist} */
 export const SAMPLE_ARTIST = {
   id: '69',
   name: 'Rick Atsley',

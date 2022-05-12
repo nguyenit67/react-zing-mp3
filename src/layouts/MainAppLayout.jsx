@@ -5,9 +5,17 @@ import SidebarRight from '@/components/SidebarRight';
 import { SkeletonTheme } from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 
+/**
+ * @type {import('react-loading-skeleton').SkeletonThemeProps}
+ */
+export const globalSkeletonTheme = {
+  baseColor: 'rgba(190, 190, 190, 0.2)',
+  highlightColor: 'rgba(129,129,129,.24)',
+};
+
 export default function MusicAppLayout({ children }) {
   return (
-    <SkeletonTheme baseColor="rgba(190, 190, 190, 0.2)" highlightColor="rgba(129,129,129,.24)" borderRadius="0.5rem">
+    <SkeletonTheme {...globalSkeletonTheme}>
       <div className="zm-layout darkmode">
         <div className="zm-layout__top">
           <div className="zm-layout__left">

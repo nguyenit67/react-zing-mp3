@@ -1,3 +1,4 @@
+import Skeleton from 'react-loading-skeleton';
 import ArtistItem from './ArtistItem';
 
 /**
@@ -6,14 +7,16 @@ import ArtistItem from './ArtistItem';
 
 /**
  * @param {{
- *  authorList: Artist[]
+ *  artistList?: Artist[];
+ *  loading?: boolean;
+ *  count?: number;
  * }} _props
  */
-export default function ArtistList({ authorList }) {
+export default function ArtistList({ artistList, loading, count }) {
   return (
     <div className="author-list">
-      {authorList.map((author, index) => (
-        <ArtistItem key={index} artist={author} />
+      {Array.from(artistList ?? Array(count)).map((artist, index) => (
+        <ArtistItem key={index} loading={loading} artist={artist ?? {}} />
       ))}
     </div>
   );

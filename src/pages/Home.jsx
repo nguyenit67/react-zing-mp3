@@ -1,37 +1,39 @@
-import songApi, { transformHomeToArtists } from '@/api/songApi';
 import ZMediaCarousel, { createSlideList } from '@/components/ZComponents/ZMediaCarousel';
 import ArtistList from '@/features/Artist/components/ArtistList';
 import getArtistLink from '@/features/Artist/utils/getArtistLink';
+import { getHomeSongSections, useChartHomeQuery, useSpotlightArtists } from '@/features/queries';
 import SongMediaList from '@/features/Song/components/SongMediaList';
-import getRandomSongs from '@/features/Song/utils/getRandomSongs';
+import SongMediaSkeletonList from '@/features/Song/components/SongMediaSkeletonList';
 import clsx from 'clsx';
 import Skeleton from 'react-loading-skeleton';
-import { useQuery } from 'react-query';
+import LoadingSkeleton from 'react-loading-skeleton';
 import { Link } from 'react-router-dom';
 
 /**
  * @typedef {import('@/types').Artist} Artist
+ * @typedef {import('@/types').Song} Song
+ * @typedef {import('react-query').UseQueryResult} UseQueryResult
  */
 
 export default function Home() {
-  const page = 3;
-  const {
-    data: artists,
-    isLoading: isLoadingArtists,
-    isError,
-  } = useQuery(['home'], () => songApi.getHome({ page }), {
-    select: transformHomeToArtists,
-  });
+  const { data: artists, isLoading: isLoadingArtists, isError } = useSpotlightArtists();
 
-  // const isLoadingArtists = true; // for debug only
+  /** @type {UseQueryResult & {data: any}} */
+  const { data: songSections, isLoading: isLoadingSections } = useChartHomeQuery(getHomeSongSections);
 
+  const [firstSection, ...restSections] = songSections ?? [];
+
+  // const isLoadingSections = true; // for debug only
   return (
     <div className="home-page">
       <div className={clsx('home__artists-slider', { loading: isLoadingArtists })}>
         {isLoadingArtists ? (
-          Array.from(Array(3)).map((_, index) => <Skeleton containerClassName="home__slide-item-skeleton" />)
+          [...Array(3).keys()].map((index) => (
+            <LoadingSkeleton key={index} containerClassName="home__slide-item-skeleton" />
+          ))
         ) : (
           <ZMediaCarousel
+            // @ts-ignore
             dataSource={createSlideList(artists)}
             renderItem={(artist) => (
               <Link to={getArtistLink(artist)}>
@@ -42,26 +44,38 @@ export default function Home() {
         )}
       </div>
 
-      {renderHomeMediaList()}
+      {renderHomeMediaList({ ...firstSection, loading: isLoadingSections })}
 
-      {/* <div className="home__media-list">
-        <ArtistList authorList={artists} />
-      </div> */}
+      <div className="home__media-list">
+        <ArtistList
+          loading={isLoadingArtists}
+          // @ts-ignore
+          artistList={artists}
+          count={5}
+        />
+      </div>
 
-      {renderHomeMediaList()}
-      {renderHomeMediaList()}
-      {renderHomeMediaList()}
-      {renderHomeMediaList()}
+      {restSections.map((section) => renderHomeMediaList({ ...section, loading: isLoadingSections }))}
     </div>
   );
 }
 
-function renderHomeMediaList() {
-  return (
+/**
+ * @typedef {import('@/types').Section<Song>} SongSection
+ * @param {SongSection & {loading?: boolean}} _params
+ */
+function renderHomeMediaList({ items, loading = false, title = 'Nhạc mới mỗi ngày' }) {
+  return loading ? (
     <div className="home__media-list">
-      <h3 className="zm-title">Nhạc mới mỗi ngày</h3>
+      <Skeleton width={300} height={15} />
 
-      <SongMediaList type="card" songList={getRandomSongs(5)} />
+      <SongMediaSkeletonList type="card" />
+    </div>
+  ) : (
+    <div className="home__media-list">
+      <h3 className="zm-title">{title}</h3>
+
+      <SongMediaList type="card" songList={items} />
     </div>
   );
 }

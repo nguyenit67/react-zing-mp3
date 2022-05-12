@@ -256,27 +256,33 @@
 // ------------------- END OF NAVBAR -------------------
 
 // ------------------- START OF HEADER -------------------
+.zm-header,
+.main-content {
+  .padding-x(60px);
+
+  .laptop-only({
+    // padding: 0 15px;
+    .padding-x(15px);
+  });
+
+  .tablet({
+    .padding-x(30px);
+  });
+
+  .sm-tablet({
+    .padding-x(15px);
+  });
+
+  // .mobile({
+  // .padding-x(15px);
+  // });
+}
+
 .zm-header {
   display: flex;
   align-items: center;
   height: @height-header;
-  padding: 0 60px;
-
-  .laptop-only({
-    padding: 0 15px;
-  });
-
-  .tablet({
-    padding: 0 30px;
-  });
-
-  .sm-tablet({
-    padding: 0 15px;
-  });
-
-  // .mobile({
-  //   padding: 0 15px;
-  // });
+  // padding: 0 60px;
 
   &__left {
     .flex();
@@ -745,12 +751,16 @@
 
 // SONG MEDIA CARD COMPONENT
 .media-card-list {
-  .flex(center, center);
+  .flex(normal, center);
   .margin-x(-10px);
+  flex-flow: row wrap;
 }
 
 .media-card {
+  width: 100%;
   padding: 10px;
+
+  flex: 1 0 20%;
 
   &__thumbnail {
     position: relative;

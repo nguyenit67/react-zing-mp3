@@ -15,8 +15,8 @@ export default function ArtistItem({ artist, loading }) {
   const artistLink = getArtistLink(artist);
 
   return (
-    <div className="author-item">
-      <div className="author-item__thumbnail">
+    <div className="artist-item">
+      <div className="artist-item__thumbnail">
         {loading ? (
           <Skeleton width={150} height={150} />
         ) : (
@@ -25,7 +25,7 @@ export default function ArtistItem({ artist, loading }) {
           </Link>
         )}
       </div>
-      <div className="author-item__name">
+      <div className="artist-item__name">
         {loading ? <Skeleton width={100} height={20} /> : <Link to={artistLink}>{authorName}</Link>}
       </div>
     </div>

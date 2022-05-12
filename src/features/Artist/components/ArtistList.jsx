@@ -14,7 +14,7 @@ import ArtistItem from './ArtistItem';
  */
 export default function ArtistList({ artistList, loading, count }) {
   return (
-    <div className="author-list">
+    <div className="artist-list">
       {Array.from(artistList ?? Array(count)).map((artist, index) => (
         <ArtistItem key={index} loading={loading} artist={artist ?? {}} />
       ))}

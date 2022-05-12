@@ -1,7 +1,10 @@
 import artistApi, { transformToArtist } from '@/api/artistApi';
 import SongMediaList from '@/features/Song/components/SongMediaList';
-import { Col, Row, Skeleton } from 'antd';
+import SongMediaSkeletonList from '@/features/Song/components/SongMediaSkeletonList';
+import ZmSkeletonTheme from '@/layouts/ZmSkeletonTheme';
+import { Col, Row } from 'antd';
 import { useState } from 'react';
+import Skeleton from 'react-loading-skeleton';
 import { useQuery } from 'react-query';
 import { useNavigate, useParams } from 'react-router-dom';
 
@@ -13,7 +16,7 @@ export default function ArtistDetailPage() {
 
   const {
     data: artist,
-    isLoading,
+    isLoading: isLoadingArtist,
     isError,
   } = useQuery(['artist', artistId], () => artistApi.getDetail(artistId), {
     select: transformToArtist,
@@ -23,20 +26,26 @@ export default function ArtistDetailPage() {
     navigate('/');
   }
 
-  if (isLoading) {
+  // for debug only, delete these 2 lines when finish
+  // let isLoadingArtist = !artist;
+  // isLoadingArtist = true;
+
+  if (isLoadingArtist) {
     return (
-      <div className="artist-detail-page">
-        <Row>
-          <Col xs={8} className="zm-column">
-            <Skeleton active avatar={{ shape: 'square' }} className="avatar-thumbnail-placeholder" />
-            <Skeleton active title />
-          </Col>
-          <Col xs={16} className="zm-column">
-            <Skeleton active title paragraph={{ rows: 0 }} />
-            <SongMediaList type="list" loading />
-          </Col>
-        </Row>
-      </div>
+      <ZmSkeletonTheme borderRadius={0}>
+        <div className="artist-detail-page">
+          <Row>
+            <Col xs={8} className="zm-column">
+              <Skeleton width="100%" className="avatar-thumbnail-placeholder" style={{ marginBottom: '14px' }} />
+              <Skeleton height={15} count={2} />
+            </Col>
+            <Col xs={16} className="zm-column">
+              <Skeleton width={200} height={15} style={{ marginBottom: '20px' }} />
+              <SongMediaSkeletonList type="list" />
+            </Col>
+          </Row>
+        </div>
+      </ZmSkeletonTheme>
     );
   }
 
@@ -57,9 +66,7 @@ export default function ArtistDetailPage() {
       <Row>
         <Col xs={8} className="zm-column">
           <figure>
-            {!isLoadedThumbnail && (
-              <Skeleton active avatar={{ shape: 'square' }} className="avatar-thumbnail-placeholder" />
-            )}
+            {!isLoadedThumbnail && <Skeleton className="avatar-thumbnail-placeholder" />}
             <img
               src={avatarUrl}
               alt={artistName}

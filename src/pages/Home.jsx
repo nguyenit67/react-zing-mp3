@@ -47,15 +47,20 @@ export default function Home() {
       {renderHomeMediaList({ ...firstSection, loading: isLoadingSections })}
 
       <div className="home__media-list">
-        <ArtistList
-          loading={isLoadingArtists}
-          // @ts-ignore
-          artistList={artists}
-          count={5}
-        />
+        {isLoadingArtists ? (
+          <ArtistList loading count={5} />
+        ) : (
+          <ArtistList
+            // @ts-ignore
+            artistList={artists.slice(0, 5)}
+          />
+        )}
       </div>
 
-      {restSections.map((section) => renderHomeMediaList({ ...section, loading: isLoadingSections }))}
+      {isLoadingSections
+        ? // @ts-ignore
+          [...Array(2)].map(() => renderHomeMediaList({ loading: true }))
+        : restSections.map((section) => renderHomeMediaList(section))}
     </div>
   );
 }
@@ -68,7 +73,6 @@ function renderHomeMediaList({ items, loading = false, title = 'Nhạc mới m�
   return loading ? (
     <div className="home__media-list">
       <Skeleton width={300} height={15} />
-
       <SongMediaSkeletonList type="card" />
     </div>
   ) : (

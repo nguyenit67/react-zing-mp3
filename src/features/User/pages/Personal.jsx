@@ -29,7 +29,7 @@ export default function PersonalPage() {
   const user = {}; // fetch from API using pure axios w/ custom hooks or useQuery
 
   const {
-    thumbnailUrl = 'https://i.scdn.co/image/ab6761610000e5ebaad54b2cf9044587eac7acdf',
+    thumbnailUrl = 'https://lh3.googleusercontent.com/a-/AOh14Gieq13nqVtDDgnEKmQo1Sqr4Nm4yQ7yntRja3ur=s360-p-rw-no',
     fullName: personalName = 'Nguyễn Hoàng Nguyên',
   } = user;
 

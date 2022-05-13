@@ -1,8 +1,6 @@
 import ZmSkeletonTheme from '@/layouts/ZmSkeletonTheme';
-import { Col, Row, Space } from 'antd';
 import clsx from 'clsx';
-import { Fragment } from 'react';
-import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
+import Skeleton from 'react-loading-skeleton';
 
 /**
  * @typedef {import('@/types').Song} Song

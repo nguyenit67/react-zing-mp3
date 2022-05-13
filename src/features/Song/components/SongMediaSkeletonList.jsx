@@ -12,20 +12,23 @@ import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
  * @param {{
  *  type?: 'card' | 'list';
  *  className?: string;
+ *  count?: number;
  * }} _props
  */
-export default function SongMediaSkeletonList({ type = 'list', className }) {
+export default function SongMediaSkeletonList({ type = 'list', className, count }) {
+  const displayCount = count || (type === 'card' ? 5 : 9);
+
   return (
     <ZmSkeletonTheme borderRadius="2px">
       <div className={clsx(className, type === 'card' ? 'media-card-list' : 'song-play-list')}>
         {type === 'card'
-          ? [...Array(5).keys()].map((index) => (
+          ? [...Array(displayCount).keys()].map((index) => (
               <div key={index} className="media-card">
                 <Skeleton height={140} style={{ marginBottom: '10px' }} />
                 <Skeleton count={2} />
               </div>
             ))
-          : [...Array(9).keys()].map((index) => (
+          : [...Array(displayCount).keys()].map((index) => (
               <Row key={index} align="middle" style={{ padding: '5px' }}>
                 <Col>
                   <Skeleton width={40} height={40} inline style={{ marginRight: '10px' }} />

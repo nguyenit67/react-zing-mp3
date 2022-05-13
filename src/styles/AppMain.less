@@ -598,6 +598,11 @@
     height: @__content-height;
     // max-height: @__content-height;
     .scrollbar();
+
+    .recent-empty .zm-button {
+      position: relative;
+      top: -20px;
+    }
   }
 }
 
@@ -937,5 +942,12 @@
   &__info-text {
     margin-bottom: 30px;
     font-size: 12px;
+  }
+}
+
+.zm-button-favorite.is-favorite {
+  && {
+    // color: #c662ef;
+    color: #7200a1;
   }
 }

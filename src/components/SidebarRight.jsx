@@ -1,34 +1,39 @@
+import { useTop100ChartSongs } from '@/features/queries';
 import SongMediaList from '@/features/Song/components/SongMediaList';
+import SongMediaSkeletonList from '@/features/Song/components/SongMediaSkeletonList';
 import getRandomSongs from '@/features/Song/utils/getRandomSongs';
+import { Space } from 'antd';
 import { useState } from 'react';
 import ZmTabBar from './ZComponents/ZmTabBar';
 
-export default function SidebarRight() {
-  const [tab, setTab] = useState('1');
+const TABS = {
+  PLAYLIST: 'playlist',
+  RECENT: 'recent',
+};
 
-  // MOCKING DATA
-  const songList = tab === '1' ? [...Array(20)] : [{}];
-  songList[2] = { isFavorite: true };
-  songList[3] = { isActive: true, isFavorite: true };
-  songList[4] = { isFavorite: true };
-  songList[10] = { songName: 'On & On (feat. Daniel Levi) [NCS Release]' };
+export default function SidebarRight() {
+  const [tab, setTab] = useState(TABS.PLAYLIST);
+
+  const { data: playlistSongs, isLoading: isLoadingPlaylistSongs } = useTop100ChartSongs();
+  const recentSongs = [];
 
   return (
     <div className="sidebar-right">
       <div className="sidebar-right__header">
         <div className="sidebar-right__tabs">
           <ZmTabBar
+            activeTabKey={tab}
+            onChange={setTab}
             tabs={[
               {
-                key: '1',
+                key: TABS.PLAYLIST,
                 title: 'Danh sách phát',
               },
               {
-                key: '2',
+                key: TABS.RECENT,
                 title: 'Nghe gần đây',
               },
             ]}
-            onChange={setTab}
           />
         </div>
         <div className="sidebar-right__header-buttons">
@@ -41,8 +46,40 @@ export default function SidebarRight() {
         </div>
       </div>
       <div className="sidebar-right__content">
-        <SongMediaList type="list" songList={getRandomSongs(5)} />
+        {tab === TABS.PLAYLIST ? (
+          renderInQueueSongs(playlistSongs, isLoadingPlaylistSongs)
+        ) : recentSongs.length > 0 ? (
+          <SongMediaList type="list" songList={recentSongs} />
+        ) : (
+          <div className="centered recent-empty">
+            <button className="zm-button" onClick={() => setTab(TABS.PLAYLIST)}>
+              <i className="fa-solid fa-play"></i>
+              <span> Phát nhạc mới phát hành</span>
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );
+}
+
+function renderInQueueSongs(songList, isLoading) {
+  if (isLoading) {
+    return <SongMediaSkeletonList type="list" count={12} />;
+  }
+
+  return (
+    <SongMediaList
+      type="list"
+      // @ts-ignore
+      songList={songList}
+    />
+  );
+}
+
+function renderRecentSongs(songList = []) {
+  if (songList.length === 0) {
+    return <Space></Space>;
+  }
+  return <SongMediaList type="list" songList={songList} />;
 }

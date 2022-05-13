@@ -2,6 +2,7 @@ import { Col, Row, Skeleton, Space } from 'antd';
 import clsx from 'clsx';
 import { Fragment } from 'react';
 import SongMediaItem from './SongMediaItem';
+import SongMediaSkeletonList from './SongMediaSkeletonList';
 
 /**
  * @typedef {import('@/types').Song} Song
@@ -28,15 +29,15 @@ export default function SongMediaList({
 
   return (
     <div className={clsx(className, type === 'card' ? 'media-card-list' : 'song-play-list')}>
-      {loading
-        ? Array.from(Array(5)).map((_, index) => (
-            <Skeleton key={index} avatar={{ shape: 'square' }} title paragraph={{ rows: 1 }} />
-          ))
-        : songList.map((song, index) => (
-            // <Col xs={12} sm={8} md={6} >
-            <SongMediaItem key={index} type={itemType} song={song} />
-            // </Col>
-          ))}
+      {loading ? (
+        <SongMediaSkeletonList type={type} />
+      ) : (
+        songList.map((song, index) => (
+          // <Col xs={12} sm={8} md={6} >
+          <SongMediaItem key={index} type={itemType} song={song} />
+          // </Col>
+        ))
+      )}
     </div>
   );
 }

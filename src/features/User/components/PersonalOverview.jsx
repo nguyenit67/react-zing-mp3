@@ -1,8 +1,10 @@
-import ZMediaCarousel from '@/components/ZComponents/ZMediaCarousel';
+import ZMediaCarousel, { createSlideList } from '@/components/ZComponents/ZMediaCarousel';
+import { useSpotlightArtists } from '@/features/queries';
 import SongMediaList from '@/features/Song/components/SongMediaList';
-import getRandomSongs from '@/features/Song/utils/getRandomSongs';
+import { useFavoriteSongs } from '@/features/Song/context/FavoriteSongsContext';
 import { Col, Row } from 'antd';
 import { nanoid } from 'nanoid';
+import Skeleton from 'react-loading-skeleton';
 
 function createSongSliderItem(imageUrl) {
   return {
@@ -14,15 +16,9 @@ function createSongSliderItem(imageUrl) {
 }
 
 export default function PersonalOverview(props) {
-  const randomSongSliderList = [
-    createSongSliderItem('https://i.scdn.co/image/ab6761610000e5eb2d530c07b6c9f629e3327175'),
-    createSongSliderItem('https://i.scdn.co/image/ab6761610000e5eb2af8bbb74cb106ac91d31c9a'),
-    createSongSliderItem('https://i.scdn.co/image/ab6761610000e5eb33b1cf2b7b544840b727865b'),
-    createSongSliderItem('https://i.scdn.co/image/ab6761610000e5ebc02d416c309a68b04dc94576'),
-    createSongSliderItem('https://i.scdn.co/image/ab6761610000e5eb37db62ee361f796bef5b49a6'),
-    createSongSliderItem('https://i.scdn.co/image/ab6761610000e5eb2aa26cfdf3b785f171a4795c'),
-    createSongSliderItem('https://i.scdn.co/image/ab6761610000e5eb015af0621865cd5cd5046c2c'),
-  ];
+  const { favoriteSongs } = useFavoriteSongs();
+
+  const { data: artists, isLoading: isLoadingArtists, isError } = useSpotlightArtists();
 
   return (
     <div className="personal-page__overview">
@@ -32,14 +28,25 @@ export default function PersonalOverview(props) {
         </Col>
 
         <Col span={8} className="zm-column">
-          <ZMediaCarousel
-            type="overlap"
-            dataSource={randomSongSliderList}
-            renderItem={(item) => <img src={item.thumbnailUrl} alt="" />}
-          />
+          {isLoadingArtists ? (
+            <ZMediaCarousel
+              type="overlap"
+              // @ts-ignore
+              dataSource={createSlideList([...Array(2)])}
+              autoPlay={false}
+              renderItem={() => <Skeleton width={230} height={230} />}
+            />
+          ) : (
+            <ZMediaCarousel
+              type="overlap"
+              // @ts-ignore
+              dataSource={createSlideList(artists)}
+              renderItem={(item) => <img src={item.thumbnail} alt="" />}
+            />
+          )}
         </Col>
         <Col span={16} className="zm-column">
-          <SongMediaList songList={getRandomSongs(5)} type="list" className="personal-page__overview__media-list" />
+          <SongMediaList songList={favoriteSongs} type="list" className="personal-page__overview__media-list" />
         </Col>
       </Row>
       <Row style={{ marginBottom: '50px' }}>

@@ -1,11 +1,12 @@
+import { FavoriteSongsProvider } from '@/features/Song/context/FavoriteSongsContext';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import { HelmetProvider } from 'react-helmet-async';
 import { QueryClient, QueryClientProvider } from 'react-query';
+import { ReactQueryDevtools } from 'react-query/devtools';
 import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 import './index.css';
-import { ReactQueryDevtools } from 'react-query/devtools';
-import { HelmetProvider } from 'react-helmet-async';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -18,13 +19,15 @@ const queryClient = new QueryClient({
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <HelmetProvider>
-      <BrowserRouter>
-        <QueryClientProvider client={queryClient}>
-          <ReactQueryDevtools initialIsOpen={false} />
-          <App />
-        </QueryClientProvider>
-      </BrowserRouter>
-    </HelmetProvider>
+    <FavoriteSongsProvider>
+      <HelmetProvider>
+        <BrowserRouter>
+          <QueryClientProvider client={queryClient}>
+            <ReactQueryDevtools initialIsOpen={false} />
+            <App />
+          </QueryClientProvider>
+        </BrowserRouter>
+      </HelmetProvider>
+    </FavoriteSongsProvider>
   </React.StrictMode>
 );

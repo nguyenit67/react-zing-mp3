@@ -2,6 +2,7 @@ import { common } from '@/constants';
 import renderArtistsLinkText from '@/features/Song/utils/renderArtistsLinkText';
 import clsx from 'clsx';
 import { useState } from 'react';
+import { useFavoriteSongs } from '../context/FavoriteSongsContext';
 
 /**
  *
@@ -15,6 +16,9 @@ import { useState } from 'react';
 export default function SongMediaItem({ song, type: displayType = 'list-item', durationInvisible = false }) {
   const showDuration = !durationInvisible;
 
+  const { addFavoriteSong, removeFavoriteSong, checkSongIsFavorite } = useFavoriteSongs();
+  const isFavorite = checkSongIsFavorite(song.encodeId);
+
   const {
     thumbnailM: thumbnailUrl = 'https://i.scdn.co/image/ab67616d0000b273ba5db46f4b838ef6027e6f96',
     title: songName = 'Never Gonna Give You Up (500)',
@@ -22,11 +26,10 @@ export default function SongMediaItem({ song, type: displayType = 'list-item', d
   } = song;
 
   const useSongMediaState = () => ({});
-  // prettier-ignore
-  const {   
+
+  const {
     isActive = false,
     isPlaying = false,
-    isFavorite = false,
     // @ts-ignore
   } = useSongMediaState(song);
 
@@ -39,6 +42,23 @@ export default function SongMediaItem({ song, type: displayType = 'list-item', d
     }
   };
 
+  const handleClickFavoriteButton = () => {
+    if (isFavorite) {
+      removeFavoriteSong(song.encodeId);
+      return;
+    }
+    addFavoriteSong(song);
+  };
+
+  const buttonFavoriteEl = (
+    <button
+      className={clsx(['zm-button', 'zm-button-favorite'], { 'is-favorite': isFavorite })}
+      onClick={handleClickFavoriteButton}
+    >
+      {isFavorite ? <i className="fa-solid fa-heart"></i> : <i className="fa-regular fa-heart"></i>}
+    </button>
+  );
+
   return (
     <>
       {displayType === 'card-item' && (
@@ -46,9 +66,7 @@ export default function SongMediaItem({ song, type: displayType = 'list-item', d
           <div className="media-card__thumbnail">
             <img src={thumbnailUrl} alt={songName} />
             <div className="media-card__actions">
-              <button className="zm-button">
-                {isFavorite ? <i className="fa-solid fa-heart"></i> : <i className="fa-regular fa-heart"></i>}
-              </button>
+              {buttonFavoriteEl}
               <button className="zm-button zm-button-play" onClick={handleClickPlayButton}>
                 {playing ? <img src={common.SOUND_PLAYING_GIF} alt="" /> : <i className="fa-solid fa-play"></i>}
               </button>
@@ -80,9 +98,7 @@ export default function SongMediaItem({ song, type: displayType = 'list-item', d
             </div>
           </div>
           <div className="media-item__actions">
-            <button className="zm-button">
-              {isFavorite ? <i className="fa-solid fa-heart"></i> : <i className="fa-regular fa-heart"></i>}
-            </button>
+            {buttonFavoriteEl}
             <button className="zm-button">
               <i className="fa-solid fa-ellipsis"></i>
             </button>

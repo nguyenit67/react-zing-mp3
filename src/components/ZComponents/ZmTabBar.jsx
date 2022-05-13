@@ -1,5 +1,3 @@
-import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
 import clsx from 'clsx';
 
 /**
@@ -8,15 +6,21 @@ import clsx from 'clsx';
  *  tabs: {title: string, key: string, className?:string}[]
  *  onChange?: (key: string) => void
  *  className?: string
- *  defaultKey?: string
- *  activeKey?: string
+ *  defaultTabKey?: string
+ *  activeTabKey?: string
  * }} _props
  */
-export default function ZmTabBar({ tabs = [], onChange, className, defaultKey, activeKey }) {
-  const [currentKey, setCurrentKey] = useState(activeKey || defaultKey || tabs[0].key);
+export default function ZmTabBar({
+  tabs = [],
+  onChange,
+  className,
+  defaultTabKey: defaultKey,
+  activeTabKey: currentKey,
+}) {
+  // const [currentKey, setCurrentKey] = useState(activeKey || defaultKey || tabs[0].key);
 
   const handleClick = (key) => {
-    setCurrentKey(key);
+    // setCurrentKey(key);
 
     if (onChange) {
       onChange(key);

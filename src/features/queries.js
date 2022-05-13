@@ -51,6 +51,13 @@ export const getHomeSongSections = ({ data }) => {
   return shortenSections;
 };
 
+const getTop100ChartSongs = ({ data }) => {
+  const { RTChart: rtChart } = data;
+  return rtChart.items;
+};
+
+export const useTop100ChartSongs = () => useChartHomeQuery(getTop100ChartSongs);
+
 export const useHomeQuery = ({ page }, select) =>
   useQuery(['home', { page }], () => songApi.getHome({ page }), { select });
 

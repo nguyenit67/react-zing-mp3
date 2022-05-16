@@ -23,7 +23,10 @@ const songApi = {
     return axiosClient.get(url);
   },
 
-  getStream(songId) {},
+  getMp3(songId) {
+    const url = `https://music-player-pink.vercel.app/api/song?id=${songId}`;
+    return axiosClient.get(url);
+  },
 };
 
 export default songApi;

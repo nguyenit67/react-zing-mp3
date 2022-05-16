@@ -5,6 +5,7 @@ export function getFormattedDateTime(date = new Date()) {
 }
 
 export const formatTime = (number) => {
+  number = Math.floor(number);
   let h = Math.floor(number / 60);
   let m = number % 60;
 

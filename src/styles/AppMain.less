@@ -503,7 +503,7 @@
       width: 40px;
 
       &:hover {
-        color: var(--blue);
+        color: var(--link-text-hover);
       }
     }
   }
@@ -527,6 +527,14 @@
 
   &__time {
     text-align: center;
+    @time-margin: 5px;
+
+    &.time-left {
+      margin-right: @time-margin;
+    }
+    &.time-right {
+      margin-left: @time-margin;
+    }
   }
 
   //*** RIGHT PART OF PLAYER CONTROLS INCLUDES VOLUME 🔊 CONTROLLER
@@ -800,6 +808,15 @@
       .icon-round-button();
       .square(42px);
     }
+
+    .zm-button-play img {
+      .square(50%);
+      margin: auto;
+    }
+  }
+
+  &.active.is-playing &__actions {
+    opacity: 1;
   }
 
   &__name {

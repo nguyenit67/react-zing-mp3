@@ -2,18 +2,23 @@ import Header from '@/components/Header';
 import NavBar from '@/components/Navbar';
 import PlayerBar from '@/components/PlayerBar';
 import SidebarRight from '@/components/SidebarRight';
+import { selectPlayerQueue } from '@/features/Song/reducers/selectors';
 import { SkeletonTheme } from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
+import { useSelector } from 'react-redux';
 
 /**
- * @type {import('react-loading-skeleton').SkeletonThemeProps}
- */
+ * @typedef {import('react-loading-skeleton').SkeletonThemeProps} SkeletonThemeProps
+ *
+ * @type {SkeletonThemeProps} */
 export const globalSkeletonTheme = {
   baseColor: 'rgba(190, 190, 190, 0.2)',
   highlightColor: 'rgba(129,129,129,.24)',
 };
 
 export default function MusicAppLayout({ children }) {
+  const { songList } = useSelector(selectPlayerQueue);
+
   return (
     <SkeletonTheme {...globalSkeletonTheme}>
       <div className="zm-layout darkmode">
@@ -31,10 +36,11 @@ export default function MusicAppLayout({ children }) {
             <SidebarRight />
           </div>
         </div>
-
-        <div className="zm-layout__bottom">
-          <PlayerBar />
-        </div>
+        {songList.length > 0 && (
+          <div className="zm-layout__bottom">
+            <PlayerBar />
+          </div>
+        )}
       </div>
     </SkeletonTheme>
   );

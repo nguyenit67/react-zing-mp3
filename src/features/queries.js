@@ -64,3 +64,9 @@ export const useHomeQuery = ({ page }, select) =>
 export const useChartHomeQuery = (select) => useQuery(['chartHome'], () => songApi.getChartHome(), { select });
 
 export const useSpotlightArtists = () => useHomeQuery({ page: 3 }, transformHomeToArtists);
+
+export const useSongMp3 = (songId, condition = true) =>
+  useQuery(['songMp3', songId], () => songApi.getMp3(songId), {
+    select: ({ data }) => data['128'],
+    enabled: condition,
+  });

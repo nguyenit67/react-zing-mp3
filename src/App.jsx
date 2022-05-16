@@ -8,6 +8,7 @@ import '@/styles/AppMain.less';
 import { Helmet } from 'react-helmet-async';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { WEBSITE_TITLE } from '@/constants/common';
+import ZmQueryErrorBoundary from './components/ZmQueryErrorBoundary';
 
 export default function App() {
   return (
@@ -16,16 +17,18 @@ export default function App() {
         <title>{WEBSITE_TITLE}</title>
       </Helmet>
 
-      <AppLayout>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/mymusic/*" element={<Personal />} />
-          <Route path="/artist/:artistId" element={<ArtistDetailPage />} />
-          <Route path={pathKeys.SEARCH} element={<Search />} />
+      <ZmQueryErrorBoundary>
+        <AppLayout>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/mymusic/*" element={<Personal />} />
+            <Route path="/artist/:artistId" element={<ArtistDetailPage />} />
+            <Route path={pathKeys.SEARCH} element={<Search />} />
 
-          <Route path="*" element={<Navigate to="/" />} />
-        </Routes>
-      </AppLayout>
+            <Route path="*" element={<Navigate to="/" />} />
+          </Routes>
+        </AppLayout>
+      </ZmQueryErrorBoundary>
     </div>
   );
 }

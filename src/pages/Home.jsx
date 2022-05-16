@@ -5,6 +5,7 @@ import { getHomeSongSections, useChartHomeQuery, useSpotlightArtists } from '@/f
 import SongMediaList from '@/features/Song/components/SongMediaList';
 import SongMediaSkeletonList from '@/features/Song/components/SongMediaSkeletonList';
 import clsx from 'clsx';
+import { Fragment } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import LoadingSkeleton from 'react-loading-skeleton';
 import { Link } from 'react-router-dom';
@@ -16,7 +17,7 @@ import { Link } from 'react-router-dom';
  */
 
 export default function Home() {
-  const { data: artists, isLoading: isLoadingArtists, isError } = useSpotlightArtists();
+  const { data: artists, isLoading: isLoadingArtists } = useSpotlightArtists();
 
   /** @type {UseQueryResult & {data: any}} */
   const { data: songSections, isLoading: isLoadingSections } = useChartHomeQuery(getHomeSongSections);
@@ -59,8 +60,8 @@ export default function Home() {
 
       {isLoadingSections
         ? // @ts-ignore
-          [...Array(2)].map(() => renderHomeMediaList({ loading: true }))
-        : restSections.map((section) => renderHomeMediaList(section))}
+          [...Array(2).keys()].map((index) => <Fragment key={index}>{renderHomeMediaList({ loading: true })}</Fragment>)
+        : restSections.map((section, index) => <Fragment key={index}>{renderHomeMediaList(section)}</Fragment>)}
     </div>
   );
 }
@@ -72,7 +73,7 @@ export default function Home() {
 function renderHomeMediaList({ items, loading = false, title = 'Nhạc mới mỗi ngày' }) {
   return loading ? (
     <div className="home__media-list">
-      <Skeleton width={300} height={15} />
+      <Skeleton width={200} height={15} />
       <SongMediaSkeletonList type="card" />
     </div>
   ) : (

@@ -1,8 +1,12 @@
 import { common } from '@/constants';
 import renderArtistsLinkText from '@/features/Song/utils/renderArtistsLinkText';
 import clsx from 'clsx';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useFavoriteSongs } from '../context/FavoriteSongsContext';
+import useIsSongActive from '../hooks/useIsSongActive';
+import { playSong, setAppPlaying } from '../reducers/playerQueueSlice';
+import { selectPlayerQueue } from '../reducers/selectors';
 
 /**
  *
@@ -15,6 +19,16 @@ import { useFavoriteSongs } from '../context/FavoriteSongsContext';
 
 export default function SongMediaItem({ song, type: displayType = 'list-item', durationInvisible = false }) {
   const showDuration = !durationInvisible;
+  const dispatch = useDispatch();
+
+  /**
+   * @typedef {import('../reducers/playerQueueSlice').PlayerQueueSliceState} PlayerQueueSliceState
+   */
+
+  /** @type {PlayerQueueSliceState} */
+  const { isAppPlaying } = useSelector(selectPlayerQueue);
+  const isActive = useIsSongActive(song);
+  const isItemPlaying = isActive && isAppPlaying;
 
   const { addFavoriteSong, removeFavoriteSong, checkSongIsFavorite } = useFavoriteSongs();
   const isFavorite = checkSongIsFavorite(song.encodeId);
@@ -25,22 +39,7 @@ export default function SongMediaItem({ song, type: displayType = 'list-item', d
     artists: songArtists,
   } = song;
 
-  const useSongMediaState = () => ({});
-
-  const {
-    isActive = false,
-    isPlaying = false,
-    // @ts-ignore
-  } = useSongMediaState(song);
-
-  const [playing, setPlaying] = useState(isPlaying || false);
-
-  const handleClickPlayButton = () => {
-    // this is for UI testing
-    if (isActive) {
-      setPlaying(!playing);
-    }
-  };
+  const listItemElRef = useRef(null);
 
   const handleClickFavoriteButton = () => {
     if (isFavorite) {
@@ -50,7 +49,26 @@ export default function SongMediaItem({ song, type: displayType = 'list-item', d
     addFavoriteSong(song);
   };
 
-  const buttonFavoriteEl = (
+  const handleClickPlayButton = () => {
+    if (!isActive) {
+      console.log({ song, isActive, isAppPlaying });
+      dispatch(playSong(song));
+      return;
+    }
+
+    dispatch(setAppPlaying(!isAppPlaying));
+  };
+
+  useEffect(() => {
+    if (!isActive) return;
+
+    listItemElRef.current?.scrollIntoView({
+      behavior: 'smooth',
+      block: 'center',
+    });
+  }, [isActive]);
+
+  const favoriteButtonElement = (
     <button
       className={clsx(['zm-button', 'zm-button-favorite'], { 'is-favorite': isFavorite })}
       onClick={handleClickFavoriteButton}
@@ -59,17 +77,21 @@ export default function SongMediaItem({ song, type: displayType = 'list-item', d
     </button>
   );
 
+  const playButtonElement = (
+    <button className="zm-button zm-button-play" onClick={handleClickPlayButton}>
+      {isItemPlaying ? <img src={common.SOUND_PLAYING_GIF} alt="" /> : <i className="fa-solid fa-play"></i>}
+    </button>
+  );
+
   return (
     <>
       {displayType === 'card-item' && (
-        <div className={clsx('media-card', { active: isActive })}>
+        <div className={clsx('media-card', { active: isActive, 'is-playing': isItemPlaying })}>
           <div className="media-card__thumbnail">
             <img src={thumbnailUrl} alt={songName} />
             <div className="media-card__actions">
-              {buttonFavoriteEl}
-              <button className="zm-button zm-button-play" onClick={handleClickPlayButton}>
-                {playing ? <img src={common.SOUND_PLAYING_GIF} alt="" /> : <i className="fa-solid fa-play"></i>}
-              </button>
+              {favoriteButtonElement}
+              {playButtonElement}
               <button className="zm-button">
                 <i className="fa-solid fa-ellipsis"></i>
               </button>
@@ -84,13 +106,11 @@ export default function SongMediaItem({ song, type: displayType = 'list-item', d
       )}
       {/* display as list-item */}
       {displayType !== 'card-item' && (
-        <div className={clsx('media-item', { active: isActive })}>
+        <div ref={listItemElRef} className={clsx('media-item', { active: isActive })}>
           <div className="media-item__content">
             <div className="media-item__thumbnail">
               <img src={thumbnailUrl} alt={songName} />
-              <button className="zm-button" onClick={handleClickPlayButton}>
-                {playing ? <img src={common.SOUND_PLAYING_GIF} alt="" /> : <i className="fa-solid fa-play"></i>}
-              </button>
+              {playButtonElement}
             </div>
             <div className="media-item__info">
               <div className="media-item__name">{songName}</div>
@@ -98,7 +118,7 @@ export default function SongMediaItem({ song, type: displayType = 'list-item', d
             </div>
           </div>
           <div className="media-item__actions">
-            {buttonFavoriteEl}
+            {favoriteButtonElement}
             <button className="zm-button">
               <i className="fa-solid fa-ellipsis"></i>
             </button>

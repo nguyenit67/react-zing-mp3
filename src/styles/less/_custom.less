@@ -16,6 +16,9 @@
 }
 
 .zm-slider() {
+  --slidebar-player-bg: hsla(0, 0%, 100%, 0.3);
+  --slidebar-active-bg: #fff;
+
   width: 100%;
 
   @ant-slider: ant-slider;
@@ -24,11 +27,11 @@
     .margin-y(0);
 
     &-track {
-      background: #fff;
+      background: var(--slidebar-active-bg);
     }
 
     &-rail {
-      background-color: var(--gray);
+      background-color: var(--slidebar-player-bg);
     }
 
     &-handle {
@@ -44,12 +47,12 @@
 
     &:hover {
       .@{ant-slider}-track {
-        background: #fff;
+        background: var(--slidebar-active-bg);
         transform: scaleY(1.5);
       }
 
       .@{ant-slider}-rail {
-        background: var(--gray);
+        background: var(--slidebar-player-bg);
         transform: scaleY(1.5);
       }
       .@{ant-slider}-handle {

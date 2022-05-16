@@ -1,9 +1,11 @@
 import { useTop100ChartSongs } from '@/features/queries';
 import SongMediaList from '@/features/Song/components/SongMediaList';
 import SongMediaSkeletonList from '@/features/Song/components/SongMediaSkeletonList';
+import { setSongs } from '@/features/Song/reducers/playerQueueSlice';
 import getRandomSongs from '@/features/Song/utils/getRandomSongs';
 import { Space } from 'antd';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import ZmTabBar from './ZComponents/ZmTabBar';
 
 const TABS = {
@@ -12,10 +14,18 @@ const TABS = {
 };
 
 export default function SidebarRight() {
+  const dispatch = useDispatch();
   const [tab, setTab] = useState(TABS.PLAYLIST);
 
-  const { data: playlistSongs, isLoading: isLoadingPlaylistSongs } = useTop100ChartSongs();
+  const { data: topSongList, isLoading: isLoadingPlaylistSongs } = useTop100ChartSongs();
   const recentSongs = [];
+
+  useEffect(() => {
+    // @ts-ignore
+    if (topSongList && topSongList.length > 0) {
+      dispatch(setSongs(topSongList));
+    }
+  }, [topSongList]);
 
   return (
     <div className="sidebar-right">
@@ -47,7 +57,7 @@ export default function SidebarRight() {
       </div>
       <div className="sidebar-right__content">
         {tab === TABS.PLAYLIST ? (
-          renderInQueueSongs(playlistSongs, isLoadingPlaylistSongs)
+          renderInQueueSongs(topSongList, isLoadingPlaylistSongs)
         ) : recentSongs.length > 0 ? (
           <SongMediaList type="list" songList={recentSongs} />
         ) : (

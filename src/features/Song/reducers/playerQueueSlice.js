@@ -29,7 +29,6 @@ const NEXT_LOOP_MODE = {
  *  currentIndex: number,
  *  isAppPlaying: boolean,
  *  isLoadingAudio: boolean,
- *  volume: number,
  *  isShuffle: boolean,
  *  loopMode: LOOPMODE_TYPE[keyof LOOPMODE_TYPE],
  * }} PlayerQueueSliceState
@@ -44,7 +43,7 @@ const playerQueueSlice = createSlice({
     currentIndex: 0,
     isAppPlaying: false,
     isLoadingAudio: false,
-    volume: JSON.parse(localStorage.getItem(StorageKeys.VOLUME)) || 0.5,
+    // volume: JSON.parse(localStorage.getItem(StorageKeys.VOLUME)) || 0.5,
     loopMode: LOOP_MODE.NO_LOOP,
     isShuffle: false,
   },
@@ -76,6 +75,7 @@ const playerQueueSlice = createSlice({
         previousIndex = state.stackPlayedIndexes.pop();
         if (previousIndex !== undefined) {
           state.currentIndex = previousIndex;
+          state.isAppPlaying = true;
         }
       } else {
         previousIndex = state.currentIndex - 1;
@@ -125,11 +125,11 @@ const playerQueueSlice = createSlice({
       state.isLoadingAudio = action.payload;
     },
 
-    setVolume(state, action) {
-      const newVolume = action.payload;
-      state.volume = newVolume;
-      localStorage.setItem(StorageKeys.VOLUME, JSON.stringify(newVolume));
-    },
+    // setVolume(state, action) {
+    //   const newVolume = action.payload;
+    //   state.volume = newVolume;
+    //   localStorage.setItem(StorageKeys.VOLUME, JSON.stringify(newVolume));
+    // },
 
     setLoopMode(state, action) {
       state.loopMode = action.payload;
@@ -142,15 +142,6 @@ const playerQueueSlice = createSlice({
 });
 
 const { actions: playerQueueActions, reducer: playerQueueReducer } = playerQueueSlice;
-export const {
-  playNext,
-  playPrevious,
-  playSong,
-  setSongs,
-  setAppPlaying,
-  setVolume,
-  cycleLoopMode,
-  setLoopMode,
-  setShuffle,
-} = playerQueueActions;
+export const { playNext, playPrevious, playSong, setSongs, setAppPlaying, cycleLoopMode, setLoopMode, setShuffle } =
+  playerQueueActions;
 export default playerQueueReducer;

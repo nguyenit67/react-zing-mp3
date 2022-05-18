@@ -2,7 +2,7 @@ import Header from '@/components/Header';
 import NavBar from '@/components/Navbar';
 import PlayerBar from '@/components/PlayerBar';
 import SidebarRight from '@/components/SidebarRight';
-import { selectPlayerQueue } from '@/features/Song/reducers/selectors';
+import { selectPlayer } from '@/features/Song/reducers/selectors';
 import { SkeletonTheme } from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 import { useSelector } from 'react-redux';
@@ -17,7 +17,7 @@ export const globalSkeletonTheme = {
 };
 
 export default function MusicAppLayout({ children }) {
-  const { songList } = useSelector(selectPlayerQueue);
+  const { songList } = useSelector(selectPlayer);
 
   return (
     <SkeletonTheme {...globalSkeletonTheme}>

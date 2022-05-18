@@ -18,7 +18,7 @@ export const RecentSongsProvider = ({ children }) => {
     localStorage.setItem(StorageKeys.RECENT_SONGS, JSON.stringify(recentSongs));
   }, [recentSongs]);
 
-  const RecentSongsContext = {
+  const recentSongsContextValue = {
     recentSongs,
     setRecentSongs,
 
@@ -34,5 +34,5 @@ export const RecentSongsProvider = ({ children }) => {
     },
   };
 
-  return <RecentSongsContext.Provider value={RecentSongsContext}>{children}</RecentSongsContext.Provider>;
+  return <RecentSongsContext.Provider value={recentSongsContextValue}>{children}</RecentSongsContext.Provider>;
 };

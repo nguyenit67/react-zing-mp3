@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useFavoriteSongs } from '../context/FavoriteSongsContext';
 import useIsSongActive from '../hooks/useIsSongActive';
 import { playSong, setAppPlaying } from '../reducers/playerQueueSlice';
-import { selectPlayerQueue } from '../reducers/selectors';
+import { selectPlayer } from '../reducers/selectors';
 
 /**
  *
@@ -26,7 +26,7 @@ export default function SongMediaItem({ song, type: displayType = 'list-item', d
    */
 
   /** @type {PlayerQueueSliceState} */
-  const { isAppPlaying } = useSelector(selectPlayerQueue);
+  const { isAppPlaying } = useSelector(selectPlayer);
   const isActive = useIsSongActive(song);
   const isItemPlaying = isActive && isAppPlaying;
 

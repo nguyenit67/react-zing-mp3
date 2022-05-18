@@ -1,18 +1,41 @@
 import { common } from '@/constants';
+import StorageKeys from '@/constants/storage-keys';
 import { useSongMp3 } from '@/features/queries';
-import { playNext, playPrevious, setAppPlaying, setShuffle, setVolume } from '@/features/Song/reducers/playerQueueSlice';
-import { selectPlayerQueue } from '@/features/Song/reducers/selectors';
+import {
+  cycleLoopMode,
+  LOOP_MODE,
+  playNext,
+  playPrevious,
+  setAppPlaying,
+  setShuffle,
+} from '@/features/Song/reducers/playerQueueSlice';
+import {
+  selectCurrentPlayingSong,
+  selectIsAppPlaying,
+  selectIsShuffle,
+  selectPlayerQueueList,
+  selectPlayingIndex,
+  selectRepeatMode,
+} from '@/features/Song/reducers/selectors';
 import renderArtistsLinkText from '@/features/Song/utils/renderArtistsLinkText';
 import { SAMPLE_ARTIST } from '@/types';
 import { formatTime } from '@/utils';
 import { Slider } from 'antd';
+import clsx from 'clsx';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import ZmIcon from './ZComponents/ZmIcon';
 
 /**
  * @typedef {import('@/types').Song} Song
  * @typedef {import('@/features/Song/reducers/playerQueueSlice').PlayerQueueSliceState} PlayerQueueSliceState
  */
+
+const LOOP_ICON = {
+  [LOOP_MODE.NO_LOOP]: <ZmIcon className="ic-repeat" />,
+  [LOOP_MODE.LOOP_ONE]: <ZmIcon className="ic-repeat-one" />,
+  [LOOP_MODE.LOOP_ALL]: <ZmIcon className="ic-repeat" />,
+};
 
 export default function PlayerBar() {
   const dispatch = useDispatch();
@@ -20,22 +43,26 @@ export default function PlayerBar() {
    * @type {React.MutableRefObject<HTMLAudioElement>} */
   const audioRef = useRef();
 
-  /** @type {PlayerQueueSliceState}  */
-  const playerQueue = useSelector(selectPlayerQueue);
-  const { songList, currentIndex, isAppPlaying, volume } = playerQueue;
+  /** @type {Song} */
+  const currentSong = useSelector(selectCurrentPlayingSong) ?? {};
+  const playingIndex = useSelector(selectPlayingIndex);
+  const isAppPlaying = useSelector(selectIsAppPlaying);
+  const repeatMode = useSelector(selectRepeatMode);
 
+  const isShuffle = useSelector(selectIsShuffle);
+
+  const [volume, setVolume] = useState(() => {
+    return JSON.parse(localStorage.getItem(StorageKeys.VOLUME)) || 0.5;
+  });
+  const [isMuted, setIsMuted] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [seekTime, setSeekTime] = useState(0);
   const isAudioPlaying = useRef(false);
 
-  /** @type {Song} */
-  // @ts-ignore
-  const currentSong = songList[currentIndex] ?? {};
-
   // const hasSongInPlayer = songList.length > 0;
   const { data: songMp3Url, isLoading: isFetchingMp3Url } = useSongMp3(
     currentSong.encodeId,
-    currentSong.encodeId !== undefined
+    Boolean(currentSong.encodeId)
   );
 
   const {
@@ -45,9 +72,10 @@ export default function PlayerBar() {
     duration = 150,
   } = currentSong;
 
-  const handleClickPlayButton = () => {
-    dispatch(setAppPlaying(!isAppPlaying));
-  };
+  console.log('New render', { playingIndex, songTitle, currentTime });
+  useEffect(() => {
+    setCurrentTime(0);
+  }, [playingIndex]);
 
   useEffect(() => {
     if (!audioRef.current || isFetchingMp3Url) return;
@@ -59,12 +87,14 @@ export default function PlayerBar() {
     }
 
     return () => audioRef.current.pause();
-  }, [isAppPlaying, currentSong, songMp3Url, isFetchingMp3Url]);
+  }, [isAppPlaying, playingIndex, songMp3Url, isFetchingMp3Url]);
 
   // synchronize with outer uncontrolled system (audio) controller (play/pause button on your keyboard)
-  useEffect(() => {
-    dispatch(setAppPlaying(isAudioPlaying.current));
-  }, [isAudioPlaying.current]);
+  // useEffect(() => {
+  //   if (!audioRef.current.ended) {
+  //     dispatch(setAppPlaying(isAudioPlaying.current));
+  //   }
+  // }, [isAudioPlaying.current]);
 
   useEffect(() => {
     if (audioRef.current) {
@@ -78,28 +108,55 @@ export default function PlayerBar() {
     }
   }, [seekTime]);
 
-  const handleVolumeSliderChange = (value) => {
-    dispatch(setVolume(value / 100));
+  const handleClickPlayButton = () => {
+    dispatch(setAppPlaying(!isAppPlaying));
   };
 
-  const handleAudioTimeUpdate = (e) => {
-    setCurrentTime(e.target.currentTime);
+  const handleSliderVolumeChange = (value) => {
+    const newVolume = value / 100;
+    setVolume(newVolume);
+    localStorage.setItem(StorageKeys.VOLUME, JSON.stringify(newVolume));
+    // dispatch(setVolume(value / 100));
+  };
+
+  const handleAudioTimeUpdate = (event) => {
+    setCurrentTime(event.target.currentTime);
   };
 
   const handleAudioEnded = () => {
-    // dispatch(setAppPlaying(false));
-  }
+    if (repeatMode === LOOP_MODE.LOOP_ONE) {
+      audioRef.current.currentTime = 0;
+      audioRef.current.play();
+      dispatch(setAppPlaying(true));
+      return;
+    }
+
+    // setCurrentTime(0);
+    dispatch(playNext());
+  };
 
   const handleClickShuffle = () => {
-    dispatch(setShuffle(!playerQueue.isShuffle));
+    dispatch(setShuffle(!isShuffle));
+  };
 
-  const handleClickBackward = () => {
+  const handleClickPlayBackward = () => {
+    // setCurrentTime(0);
     dispatch(playPrevious());
-  }
+  };
 
-  const handleClickForward = () => {
+  const handleClickPlayForward = () => {
+    // setCurrentTime(0);
     dispatch(playNext());
-  }
+  };
+
+  const handleClickLoopButton = () => {
+    dispatch(cycleLoopMode());
+  };
+
+  const handleClickVolumeButton = () => {
+    setIsMuted(!isMuted);
+    audioRef.current.muted = !isMuted;
+  };
 
   const audioElement = (
     <audio
@@ -107,9 +164,11 @@ export default function PlayerBar() {
       src={songMp3Url}
       onTimeUpdate={handleAudioTimeUpdate}
       onLoadedData={() => isAppPlaying && audioRef.current.play()}
+      // onLoadedData={() => dispatch(setAppPlaying(true))}
       // onLoad={() => setCurrentTime(0)}
       onPlay={() => (isAudioPlaying.current = true)}
       onPause={() => (isAudioPlaying.current = false)}
+      onEnded={handleAudioEnded}
     />
   );
 
@@ -124,7 +183,9 @@ export default function PlayerBar() {
 
           <div className="media__content">
             <div className="media__name">
-              <a href="#0">{songTitle}</a>
+              <a href="#0" className="no-underline">
+                {songTitle}
+              </a>
             </div>
             <div className="media__author">{renderArtistsLinkText(artists)}</div>
           </div>
@@ -144,26 +205,36 @@ export default function PlayerBar() {
         <div className="player-control">
           <div className="player-control__top">
             <div className="player-control__bar">
-              <button className="zm-button" onClick={}>
-                <i className="fa-solid fa-shuffle"></i>
+              <button
+                className={clsx('zm-button zm-button-shuffle', { active: isShuffle })}
+                onClick={handleClickShuffle}
+              >
+                {/* <i className="fa-solid fa-shuffle"></i> */}
+                <ZmIcon className="ic-shuffle" />
               </button>
-              <button className="zm-button">
-                <i className="fa-solid fa-backward-step"></i>
+              <button className="zm-button" onClick={handleClickPlayBackward}>
+                {/* <i className="fa-solid fa-backward-step"></i> */}
+                <ZmIcon className="ic-pre" />
               </button>
               <button className="zm-button zm-button-play" onClick={handleClickPlayButton}>
+                {/* if playing? show to-PAUSE :else show to-PLAY */}
                 {isAppPlaying ? (
-                  /* play->pause */
-                  <i className="fa-solid fa-pause"></i>
+                  <ZmIcon className="ic-pause-circle-outline" />
                 ) : (
                   /* pause->play */
-                  <i className="fa-solid fa-play"></i>
+                  <ZmIcon className="ic-play-circle-outline" />
                 )}
               </button>
-              <button className="zm-button">
-                <i className="fa-solid fa-forward-step"></i>
+              <button className="zm-button" onClick={handleClickPlayForward}>
+                {/* <i className="fa-solid fa-forward-step"></i> */}
+                <ZmIcon className="ic-next" />
               </button>
-              <button className="zm-button">
-                <i className="fa-solid fa-arrows-rotate"></i>
+              <button
+                className={clsx('zm-button zm-button-repeat', { active: repeatMode !== LOOP_MODE.NO_LOOP })}
+                onClick={handleClickLoopButton}
+              >
+                {/* <i className="fa-solid fa-arrows-rotate"></i> */}
+                {LOOP_ICON[repeatMode]}
               </button>
             </div>
           </div>
@@ -189,26 +260,30 @@ export default function PlayerBar() {
       <div className="zm-player__right">
         <div className="player-control__right">
           <button className="zm-button">
-            <i className="fa-solid fa-photo-film"></i>
+            {/* <i className="fa-solid fa-photo-film"></i> */}
+            {/* <ZmIcon className="ic-mv" /> */}
+            <ZmIcon className="ic-mv" style={{ fontSize: '20px' }} />
           </button>
           <button className="zm-button">
-            <i className="fa-solid fa-microphone-lines"></i>
+            {/* <i className="fa-solid fa-microphone-lines"></i> */}
+            <ZmIcon className="ic-karaoke" />
           </button>
           <button className="zm-button">
-            <i className="fa-regular fa-window-restore"></i>
+            {/* <i className="fa-regular fa-window-restore"></i> */}
+            <ZmIcon className="ic-restore" />
           </button>
           <div className="player-control__volume">
-            <button className="zm-button">
-              {volume === 0 ? (
-                <i className="fa-solid fa-volume-xmark"></i>
-              ) : volume < 50 ? (
-                <i className="fa-solid fa-volume-low"></i>
-              ) : (
-                <i className="fa-solid fa-volume-high"></i>
-              )}
+            <button className="zm-button" onClick={handleClickVolumeButton}>
+              {volume === 0 || isMuted ? <ZmIcon className="ic-volume-mute" /> : <ZmIcon className="ic-volume" />}
             </button>
             <div className="volume-slider">
-              <Slider defaultValue={volume * 100} min={0} max={100} step={1} onChange={handleVolumeSliderChange} />
+              <Slider
+                value={isMuted ? 0 : volume * 100}
+                min={0}
+                max={100}
+                step={1}
+                onChange={handleSliderVolumeChange}
+              />
             </div>
           </div>
         </div>

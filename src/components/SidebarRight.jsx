@@ -6,6 +6,7 @@ import getRandomSongs from '@/features/Song/utils/getRandomSongs';
 import { Space } from 'antd';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import ZmIcon from './ZComponents/ZmIcon';
 import ZmTabBar from './ZComponents/ZmTabBar';
 
 const TABS = {
@@ -48,10 +49,12 @@ export default function SidebarRight() {
         </div>
         <div className="sidebar-right__header-buttons">
           <button className="zm-button">
-            <i className="fa-solid fa-stopwatch"></i>
+            {/* <i className="fa-solid fa-stopwatch"></i> */}
+            <ZmIcon className="ic-20-Clock" />
           </button>
           <button className="zm-button">
-            <i className="fa-solid fa-ellipsis"></i>
+            {/* <i className="fa-solid fa-ellipsis"></i> */}
+            <ZmIcon className="ic-more" />
           </button>
         </div>
       </div>

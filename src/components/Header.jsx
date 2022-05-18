@@ -2,6 +2,8 @@ import { pathKeys } from '@/constants';
 import { searchParamKeys } from '@/constants/pathKeys';
 import useNavigateSearch from '@/hooks/useNavigateSearch';
 import { useNavigate } from 'react-router-dom';
+import SkinIcon from './Icons/SkinIcon';
+import ZmIcon from './ZComponents/ZmIcon';
 
 const { QUERY_KEY } = searchParamKeys;
 
@@ -48,19 +50,29 @@ export default function Header() {
 
       <div className="zm-header__right">
         <button className="zm-button">
-          <i className="fa-solid fa-circle-half-stroke"></i>
+          {/* <i className="fa-solid fa-circle-half-stroke"></i> */}
+          <i className="ic-zing-icon">
+            <SkinIcon />
+          </i>
         </button>
         <button className="zm-button">
-          <i className="fa-solid fa-trophy"></i>
+          {/* <i className="fa-solid fa-trophy"></i> */}
+          <ZmIcon className="ic-20-VIP-2" />
         </button>
         <button className="zm-button">
-          <i className="fa-solid fa-upload"></i>
+          {/* <i className="fa-solid fa-upload"></i> */}
+          <ZmIcon className="ic-upload" />
         </button>
         <button className="zm-button">
-          <i className="fa-solid fa-gear"></i>
+          {/* <i className="fa-solid fa-gear"></i> */}
+          <ZmIcon className="ic-settings" />
         </button>
         <button className="zm-button">
-          <i className="fa-solid fa-user"></i>
+          {/* <i className="fa-solid fa-user"></i> */}
+          {/* <ZmIcon className="ic-user" /> */}
+          <figure style={{ margin: '0' }}>
+            <img className="border-round" src="https://avatar.talk.zdn.vn/default.jpg" alt="" />
+          </figure>
         </button>
       </div>
     </div>

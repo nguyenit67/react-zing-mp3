@@ -1,3 +1,4 @@
+import ZmIcon from '@/components/ZComponents/ZmIcon';
 import { common } from '@/constants';
 import renderArtistsLinkText from '@/features/Song/utils/renderArtistsLinkText';
 import clsx from 'clsx';
@@ -73,7 +74,7 @@ export default function SongMediaItem({ song, type: displayType = 'list-item', d
       className={clsx(['zm-button', 'zm-button-favorite'], { 'is-favorite': isFavorite })}
       onClick={handleClickFavoriteButton}
     >
-      {isFavorite ? <i className="fa-solid fa-heart"></i> : <i className="fa-regular fa-heart"></i>}
+      {isFavorite ? <ZmIcon className="ic-like-full" /> : <ZmIcon className="ic-like" />}
     </button>
   );
 
@@ -100,7 +101,7 @@ export default function SongMediaItem({ song, type: displayType = 'list-item', d
 
           <div className="media-card__info">
             <div className="media-card__name">{songName}</div>
-            <div className="media-card__author">{renderArtistsLinkText(songArtists)}</div>
+            <div className="media-card__artist">{renderArtistsLinkText(songArtists)}</div>
           </div>
         </div>
       )}
@@ -114,7 +115,7 @@ export default function SongMediaItem({ song, type: displayType = 'list-item', d
             </div>
             <div className="media-item__info">
               <div className="media-item__name">{songName}</div>
-              <div className="media-item__author">{renderArtistsLinkText(songArtists)}</div>
+              <div className="media-item__artist">{renderArtistsLinkText(songArtists)}</div>
             </div>
           </div>
           <div className="media-item__actions">

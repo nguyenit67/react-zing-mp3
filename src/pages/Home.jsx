@@ -1,5 +1,6 @@
 import ZMediaCarousel, { createSlideList } from '@/components/ZComponents/ZMediaCarousel';
 import ArtistList from '@/features/Artist/components/ArtistList';
+import ArtistSkeletonList from '@/features/Artist/components/ArtistSkeletonList';
 import getArtistLink from '@/features/Artist/utils/getArtistLink';
 import { getHomeSongSections, useChartHomeQuery, useSpotlightArtists } from '@/features/queries';
 import SongMediaList from '@/features/Song/components/SongMediaList';
@@ -49,7 +50,7 @@ export default function Home() {
 
       <div className="home__media-list">
         {isLoadingArtists ? (
-          <ArtistList skeleton count={5} />
+          <ArtistSkeletonList count={5} />
         ) : (
           <ArtistList
             // @ts-ignore

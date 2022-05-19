@@ -1,49 +1,58 @@
 import { pathKeys } from '@/constants';
 import clsx from 'clsx';
-import { Link as RouterLink } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
+import ZmIcon from './ZComponents/ZmIcon';
 // @ts-ignore
 
 function NavBar() {
   const primaryList = [
     {
-      href: pathKeys.PERSONAL,
       title: 'Cá nhân',
-      renderIcon: <i className="fa-solid fa-headphones"></i>,
+      href: pathKeys.PERSONAL,
+      renderIcon: <ZmIcon className="ic-24-LibraryTab" />,
     },
     {
       title: 'Khám Phá',
-      renderIcon: <i className="fa-solid fa-compact-disc"></i>,
+      href: pathKeys.ROOT,
+      renderIcon: <ZmIcon className="ic-24-HomeTab" />,
     },
     {
       title: '#zingchart',
-      renderIcon: <i className="fa-solid fa-chart-line"></i>,
+      href: pathKeys.ZING_CHART,
+      renderIcon: <ZmIcon className="ic-24-ChartTab" />,
     },
     {
+      href: pathKeys.RADIO,
       title: 'Radio',
-      renderIcon: <i className="fa-solid fa-podcast"></i>,
+      renderIcon: <ZmIcon className="ic-24-RadioTab" />,
     },
     {
+      href: pathKeys.FOLLOW,
       title: 'Theo dõi',
-      renderIcon: <i className="fa-solid fa-newspaper"></i>,
+      renderIcon: <ZmIcon className="ic-24-FeedTab" />,
     },
   ];
 
   const secondList = [
     {
+      href: pathKeys.LATEST_SONGS,
       title: 'Nhạc mới',
-      renderIcon: <i className="fa-solid fa-music"></i>,
+      renderIcon: <ZmIcon className="ic-24-NewReleaseTab" />,
     },
     {
+      href: pathKeys.GENRE,
       title: 'Thể loại',
-      renderIcon: <i className="fa-solid fa-guitar"></i>,
+      renderIcon: <ZmIcon className="ic-24-GenreTab" />,
     },
     {
+      href: pathKeys.TOP100,
       title: 'Top 100',
-      renderIcon: <i className="fa-solid fa-star"></i>,
+      renderIcon: <ZmIcon className="ic-24-Top100Tab" />,
     },
     {
+      href: pathKeys.MV,
       title: 'Music Video',
-      renderIcon: <i className="fa-brands fa-youtube"></i>,
+      renderIcon: <ZmIcon className="ic-24-MVTab" />,
     },
   ];
 
@@ -51,11 +60,11 @@ function NavBar() {
     <div className="menu__list">
       {list.map((item, index) => (
         <div key={index} className="menu__item">
-          <RouterLink to={item.href || ''} className="navbar__link">
+          <NavLink to={item.href || '#0'} className={({ isActive }) => clsx('navbar__link', { active: isActive })}>
             {item.renderIcon}
             <span className="navbar__link-text">{item.title}</span>
             {item.append}
-          </RouterLink>
+          </NavLink>
         </div>
       ))}
     </div>

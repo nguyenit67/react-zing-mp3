@@ -128,7 +128,7 @@
 }
 
 .zm-tab-bar {
-  .flex(center, center);
+  .flex(stretch, center);
   .border-round();
   background-color: var(--transparent-black-2);
   font-size: 12px;
@@ -136,8 +136,8 @@
 
   &__item {
     .border-round();
-    flex: 1 1;
-    // .flex(center, center);
+    flex: 1 1 auto;
+    line-height: normal;
     padding: 5px 15px;
     cursor: pointer;
     color: #dadada;

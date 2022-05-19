@@ -27,16 +27,19 @@ export default function Header() {
     <div className="zm-header">
       <div className="zm-header__left">
         <button className="zm-button" onClick={navGoBack}>
-          <i className="fa-solid fa-arrow-left-long"></i>
+          {/* <i className="fa-solid fa-arrow-left-long"></i> */}
+          <ZmIcon className="ic-back" />
         </button>
         <button className="zm-button" onClick={navGoForward}>
-          <i className="fa-solid fa-arrow-right-long"></i>
+          {/* <i className="fa-solid fa-arrow-right-long"></i> */}
+          <ZmIcon className="ic-forward" />
         </button>
       </div>
 
       <div className="zm-header__center">
         <div className="zm-header__search">
-          <i className="fa-solid fa-magnifying-glass"></i>
+          {/* <i className="fa-solid fa-magnifying-glass"></i> */}
+          <ZmIcon className="ic-search" />
           <div className="zm-input-text">
             <input
               type="search"

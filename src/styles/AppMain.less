@@ -10,11 +10,12 @@
 @import url('./less/zing_icons.less');
 
 :root {
-  // --app-bg-color: #37075d;
-  --app-bg-color: #2f074e;
+  // --app-bg-color: #2f074e;
+  // --sidebar-right-bg-color: #37075d; // iko mb3's color
+
+  --app-bg-color: #37075d;
   --navbar-bg-color: #411465;
   --footer-bg-color: #37075d;
-  // --sidebar-right-bg-color: #37075d; // iko mb3's color
   --sidebar-right-bg-color: #5d218c;
 }
 
@@ -106,6 +107,7 @@
 // END OF LAYOUT CLASSES
 
 //----------------------- START OF COMPONENTS -----------------------
+@navbar-pad-x: 25px;
 
 .navbar {
   --height-menu: 215px;
@@ -129,7 +131,8 @@
     font-weight: 900;
     height: @height-header;
     line-height: @height-header;
-    padding: 0 15px;
+    // padding: 0 15px;
+    .padding-x(@navbar-pad-x);
     text-shadow: 0 0 5px #000;
   }
 
@@ -238,20 +241,40 @@
 
 .menu__item a.navbar__link {
   border-left: 3px solid transparent;
-  color: var(--dark);
+  color: var(--navigation-text);
   display: block;
-  padding: 8.5px 15px;
+  width: 100%;
+  .padding-y(8.5px);
+  .padding-x(@navbar-pad-x);
 
-  &:active,
-  &:hover,
-  &:focus {
-    color: var(--blue);
-    border-color: var(--purple-red);
+  .inline-flex(center, normal);
+
+  font-weight: 700;
+  font-size: 13px;
+  text-decoration: none;
+
+  // &:active,
+  // &:focus,
+  &:hover {
+    color: var(--purple-primary);
+    // border-color: var(--purple-red);
   }
 
-  & > .navbar__link-text {
-    margin-left: 10px; // 5px
+  .ic-zing-icon {
+    width: 24px;
+    height: 24px;
+    font-size: 24px;
     margin-right: 10px;
+    border-radius: 4px;
+    flex-shrink: 0;
+
+    line-height: 66.66%;
+  }
+
+  &.active {
+    background-color: var(--alpha-bg);
+    color: var(--text-item-hover);
+    border-left: 3px solid var(--purple-primary);
   }
 }
 
@@ -296,7 +319,7 @@
     .zm-button {
       border: 0;
       padding-left: 0;
-      padding-right: 30px;
+      padding-right: 20px;
 
       background: transparent;
       color: var(--dark);
@@ -304,6 +327,10 @@
       .tablet({
         padding-right: 15px;
       });
+
+      .ic-zing-icon {
+        font-size: 24px;
+      }
     }
   }
 
@@ -314,26 +341,36 @@
   &__search {
     position: relative;
 
-    & > i {
+    .ic-zing-icon {
       position: absolute;
       left: 12px;
       top: 50%;
       transform: translateY(-50%);
+      line-height: 66%;
+
+      font-size: 20px;
+      .square(20px);
+      color: var(--text-placeholder);
     }
 
     .zm-input-text__input {
-      background-color: var(--transparent-black-1);
+      display: block;
+      height: 40px;
+      width: 100%;
+
       border: none;
       border-radius: 50px;
       padding: 0 10px 0 40px; // start with top and clockwise
-
-      color: var(--dark);
-      display: block;
-      font-size: 16px;
-      height: 40px;
       outline: none;
+
+      font-size: 14px;
+      background-color: var(--transparent-black-1);
+      color: var(--search-text);
       transition: 0.3s;
-      width: 100%;
+
+      &::placeholder {
+        color: var(--text-placeholder);
+      }
     }
   }
 
@@ -355,14 +392,11 @@
     });
 
     .zm-button {
-      // background-color: rgba(0,0,0,.1);
-      background-color: var(--transparent-black-1);
-      border-radius: 50px;
       .icon-button-circle();
       .square(40px);
-      // color: #170f23;
+
+      background-color: var(--transparent-black-1);
       color: var(--dark);
-      padding: 0;
       text-align: center;
     }
 
@@ -439,9 +473,10 @@
       .short-title();
     }
 
-    .media__author {
+    .media__artist {
       font-size: 12px;
-      opacity: 0.6;
+      // opacity: 0.6;
+      color: var(--text-secondary);
     }
   }
 
@@ -599,19 +634,23 @@
   background-color: var(--sidebar-right-bg-color);
 
   &__header &__tabs {
-    flex: 1 1;
-    // padding: 3px;
+    // flex: 1 1;
     margin-right: auto;
-    max-width: 250px;
+    // max-width: 240px;
   }
 
   &__header {
     .flex(center, space-between);
-    .padding-x(10px);
+    // .padding-x(10px);
+    padding: 10px;
     height: @height-header;
 
     .zm-tab-bar {
       font-size: 12px;
+    }
+
+    &-buttons {
+      .inline-flex(center, center);
     }
 
     &-buttons .zm-button {
@@ -646,7 +685,8 @@
 .media-item {
   .flex(center, space-between);
   border-radius: 5px;
-  padding: 5px;
+  // padding: 5px;
+  padding: 8px;
   transition: 0.3s;
   user-select: none;
 
@@ -695,9 +735,9 @@
     text-overflow: ellipsis;
   }
 
-  &__author {
+  &__artist {
     font-size: 12px;
-    opacity: 0.6;
+    color: var(--text-secondary);
   }
 
   &__actions {
@@ -728,13 +768,17 @@
   }
 
   &.active {
-    background-color: var(--transparent-black-3);
+    background-color: var(--purple-primary);
     .media-item__thumbnail .zm-button {
       opacity: 1;
     }
 
     .zm-button {
       opacity: 0;
+    }
+
+    .zm-button-favorite.is-favorite.is-favorite {
+      color: var(--text-primary);
     }
   }
 
@@ -852,9 +896,13 @@
     .short-title();
   }
 
-  &__author {
+  &__artist {
     font-size: 12px;
-    opacity: 0.6;
+    color: var(--text-secondary);
+
+    a:hover {
+      color: var(--link-text-hover);
+    }
   }
 }
 
@@ -903,7 +951,7 @@
   }
 }
 
-// ------ END OF AUTHOR & SONG MEDIA LIST & ITEMS ------
+// ------ END OF ARTISTS & SONG MEDIA LIST & ITEMS ------
 
 // ------------ START OF ARTIST DETAIL PAGE  ------------
 
@@ -959,7 +1007,15 @@
 
   .zm-tab-bar__item {
     padding: 8px 25px;
+
+    color: var(--dark);
+    text-decoration: none;
     text-transform: uppercase;
+    // white-space: nowrap;
+
+    &:hover {
+      color: var(--link-text-hover);
+    }
   }
 
   &__song-list .zm-title {
@@ -994,6 +1050,6 @@
 .zm-button-favorite.is-favorite {
   && {
     // color: #c662ef;
-    color: #7200a1;
+    color: var(--purple-primary);
   }
 }

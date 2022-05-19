@@ -1,9 +1,14 @@
 const pathKeys = {
+  ROOT: '/',
   PERSONAL: '/mymusic',
-  ZINGCHART: '/chart',
+  ZING_CHART: '/chart',
   RADIO: '/radio',
   FOLLOW: '/theo-doi',
   LATEST_SONGS: '/nhac-moi',
+  GENRE: '/the-loai',
+  TOP100: '/top100',
+  MV: '/mv',
+
   SEARCH: '/tim-kiem',
   ARTIST: '/artist',
 };

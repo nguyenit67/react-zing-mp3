@@ -187,7 +187,7 @@ export default function PlayerBar() {
                 {songTitle}
               </a>
             </div>
-            <div className="media__author">{renderArtistsLinkText(artists)}</div>
+            <div className="media__artist">{renderArtistsLinkText(artists)}</div>
           </div>
 
           <div className="media__actions">

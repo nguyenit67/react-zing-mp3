@@ -17,7 +17,8 @@
  *   title: string;
  *   thumbnail: string;
  *   thumbnailM: string; // thumbnail with size 240x240
- *   artists: Artist[];
+ *   artists?: Artist[]; // server may return or not
+ *   artistsNames?: string;
  *   duration: number;
  *   songUrl?: string;
  * }} SongObject

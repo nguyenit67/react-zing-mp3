@@ -69,6 +69,7 @@ export default function SongMediaItem({ song, type: displayType = 'list-item', d
     });
   }, [isActive]);
 
+  const artistsLinkText = songArtists ? renderArtistsLinkText(songArtists) : song.artistsNames;
   const favoriteButtonElement = (
     <button
       className={clsx(['zm-button', 'zm-button-favorite'], { 'is-favorite': isFavorite })}
@@ -101,7 +102,7 @@ export default function SongMediaItem({ song, type: displayType = 'list-item', d
 
           <div className="media-card__info">
             <div className="media-card__name">{songName}</div>
-            <div className="media-card__artist">{renderArtistsLinkText(songArtists)}</div>
+            <div className="media-card__artist">{artistsLinkText}</div>
           </div>
         </div>
       )}
@@ -115,7 +116,7 @@ export default function SongMediaItem({ song, type: displayType = 'list-item', d
             </div>
             <div className="media-item__info">
               <div className="media-item__name">{songName}</div>
-              <div className="media-item__artist">{renderArtistsLinkText(songArtists)}</div>
+              <div className="media-item__artist">{artistsLinkText}</div>
             </div>
           </div>
           <div className="media-item__actions">

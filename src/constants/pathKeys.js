@@ -24,6 +24,7 @@ export const pathParamKeys = {
 
 export const searchParamKeys = {
   QUERY_KEY: 'keyword',
-  LIMIT_KEY: 'limit',
-  TYPE_KEY: 'type',
+  PAGE_KEY: 'page',
+  LIMIT_KEY: 'count',
+  // TYPE_KEY: 'type',
 };

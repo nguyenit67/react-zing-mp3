@@ -72,7 +72,7 @@ export default function PlayerBar() {
     duration = 150,
   } = currentSong;
 
-  console.log('New render', { playingIndex, songTitle, currentTime });
+  // console.log('New render', { playingIndex, songTitle, currentTime });
   useEffect(() => {
     setCurrentTime(0);
   }, [playingIndex]);
@@ -85,8 +85,6 @@ export default function PlayerBar() {
     } else {
       audioRef.current.pause();
     }
-
-    return () => audioRef.current.pause();
   }, [isAppPlaying, playingIndex, songMp3Url, isFetchingMp3Url]);
 
   // synchronize with outer uncontrolled system (audio) controller (play/pause button on your keyboard)

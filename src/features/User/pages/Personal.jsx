@@ -5,6 +5,8 @@ import PersonalArtistList from '../components/PersonalArtistList';
 import PersonalOverview from '../components/PersonalOverview';
 import PersonalSongList from '../components/PersonalSongList';
 import { Helmet } from 'react-helmet-async';
+// @ts-ignore
+import myProfileUrl from '@/static/images/profile-picture.webp';
 
 const tabList = [
   {
@@ -28,10 +30,7 @@ const tabList = [
 export default function PersonalPage() {
   const user = {}; // fetch from API using pure axios w/ custom hooks or useQuery
 
-  const {
-    thumbnailUrl = 'https://lh3.googleusercontent.com/a-/AOh14Gieq13nqVtDDgnEKmQo1Sqr4Nm4yQ7yntRja3ur=s360-p-rw-no',
-    fullName: personalName = 'Nguyễn Hoàng Nguyên',
-  } = user;
+  const { thumbnailUrl = myProfileUrl, fullName: personalName = 'Nguyễn Hoàng Nguyên' } = user;
 
   return (
     <div className="personal-page">

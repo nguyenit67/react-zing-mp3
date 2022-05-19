@@ -1,36 +1,20 @@
-// import { searchParamKeys } from '@/constants/pathKeys';
-// import axiosClient from './axiosClient';
+import { searchParamKeys } from '@/constants/pathKeys';
+import axiosClient from './axiosClient';
 
-// const { QUERY_KEY, LIMIT_KEY, TYPE_KEY } = searchParamKeys;
+const { QUERY_KEY, LIMIT_KEY, PAGE_KEY } = searchParamKeys;
 
-// const searchApi = {
-//   searchAll(params) {
-//     const url = 'https://ac.mp3.zing.vn/complete';
+const searchApi = {
+  searchSongs(params) {
+    const url = 'https://aqueous-citadel-07678.herokuapp.com/search-songs';
 
-//     const apiParams = {
-//       query: params[QUERY_KEY],
-//       num: params[LIMIT_KEY] ?? 500,
-//       type: params[TYPE_KEY] ?? 'artist,song,key,code',
-//     };
+    const fetchParams = {
+      keyword: params[QUERY_KEY],
+      page: params[PAGE_KEY] ?? 1,
+      count: params[LIMIT_KEY] ?? 500,
+    };
 
-//     return axiosClient.get(url, { params: apiParams });
-//   },
-// };
+    return axiosClient.get(url, { params: fetchParams });
+  },
+};
 
-// // @ts-ignore
-// searchApi.searchAll.transformToSongs = ({ data: serverData }) => {
-//   const rawSongs = serverData.find((entry) => entry.hasOwnProperty('song'));
-//   const rawArtists = serverData.find((entry) => entry.hasOwnProperty('artist'));
-
-//   const derivedData = {
-//     songList: rawSongs,
-//     artistList: rawArtists,
-//   };
-
-//   console.log(derivedData);
-
-//   return derivedData;
-// };
-
-// export default searchApi;
-export default {};
+export default searchApi;

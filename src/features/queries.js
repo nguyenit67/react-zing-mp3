@@ -1,3 +1,4 @@
+import searchApi from '@/api/searchApi';
 import songApi from '@/api/songApi';
 import { useQuery } from 'react-query';
 
@@ -15,7 +16,7 @@ export function transformHomeToArtists({ data }) {
 }
 
 // export const getSongSections = ({ data }) => {
-export const getHomeSongSections = ({ data }) => {
+export const transformHomeSongSections = ({ data }) => {
   const { newRelease, weekChart } = data;
 
   const { vn: vietnamSongs, us: usUKSongs, korea: kpopSongs } = weekChart;
@@ -50,6 +51,16 @@ export const getHomeSongSections = ({ data }) => {
 
   return shortenSections;
 };
+
+const transformSongSearchToSongList = ({ data }) => {
+  const { items } = data;
+  return items;
+};
+
+export const useSearchSongsQuery = (fetchParams) =>
+  useQuery(['searchSongs', fetchParams], () => searchApi.searchSongs(fetchParams), {
+    select: transformSongSearchToSongList,
+  });
 
 const getTop100ChartSongs = ({ data }) => {
   const { RTChart: rtChart } = data;

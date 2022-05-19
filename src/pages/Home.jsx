@@ -2,7 +2,7 @@ import ZMediaCarousel, { createSlideList } from '@/components/ZComponents/ZMedia
 import ArtistList from '@/features/Artist/components/ArtistList';
 import ArtistSkeletonList from '@/features/Artist/components/ArtistSkeletonList';
 import getArtistLink from '@/features/Artist/utils/getArtistLink';
-import { getHomeSongSections, useChartHomeQuery, useSpotlightArtists } from '@/features/queries';
+import { transformHomeSongSections, useChartHomeQuery, useSpotlightArtists } from '@/features/queries';
 import SongMediaList from '@/features/Song/components/SongMediaList';
 import SongMediaSkeletonList from '@/features/Song/components/SongMediaSkeletonList';
 import clsx from 'clsx';
@@ -21,7 +21,7 @@ export default function Home() {
   const { data: artists, isLoading: isLoadingArtists } = useSpotlightArtists();
 
   /** @type {UseQueryResult & {data: any}} */
-  const { data: songSections, isLoading: isLoadingSections } = useChartHomeQuery(getHomeSongSections);
+  const { data: songSections, isLoading: isLoadingSections } = useChartHomeQuery(transformHomeSongSections);
 
   const [firstSection, ...restSections] = songSections ?? [];
 

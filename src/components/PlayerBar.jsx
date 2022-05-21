@@ -1,6 +1,7 @@
 import { common } from '@/constants';
 import StorageKeys from '@/constants/storage-keys';
 import { useSongMp3 } from '@/features/queries';
+import { useFavoriteSongs } from '@/features/Song/context/FavoriteSongsContext';
 import {
   addRecentSong,
   cycleLoopMode,
@@ -76,6 +77,9 @@ export default function PlayerBar() {
     artists = [SAMPLE_ARTIST],
     duration = 150,
   } = currentSong;
+
+  const { addFavoriteSong, removeFavoriteSong, checkSongIsFavorite } = useFavoriteSongs();
+  const isFavorite = checkSongIsFavorite(currentSong.encodeId);
 
   useEffect(() => {
     if (justPlayedSong?.encodeId) {
@@ -171,6 +175,14 @@ export default function PlayerBar() {
     audioRef.current.muted = !isMuted;
   };
 
+  const handleClickFavoriteOnMedia = () => {
+    if (!isFavorite) {
+      addFavoriteSong(currentSong);
+    } else {
+      removeFavoriteSong(currentSong.encodeId);
+    }
+  };
+
   const audioElement = (
     <audio
       ref={audioRef}
@@ -204,11 +216,14 @@ export default function PlayerBar() {
           </div>
 
           <div className="media__actions">
-            <button className="zm-button">
-              <i className="fa-regular fa-heart"></i>
+            <button
+              className={clsx(['zm-button', 'zm-button-favorite'], { 'is-favorite': isFavorite })}
+              onClick={handleClickFavoriteOnMedia}
+            >
+              {isFavorite ? <ZmIcon className="ic-like-full" /> : <ZmIcon className="ic-like" />}
             </button>
             <button className="zm-button">
-              <i className="fa-solid fa-ellipsis"></i>
+              <ZmIcon className="ic-more" />
             </button>
           </div>
         </div>

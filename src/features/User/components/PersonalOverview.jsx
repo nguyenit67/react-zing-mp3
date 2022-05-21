@@ -1,3 +1,4 @@
+import NoContentBox from '@/components/NoContentBox';
 import ZMediaCarousel, { createSlideList } from '@/components/ZComponents/ZMediaCarousel';
 import { useSpotlightArtists } from '@/features/queries';
 import SongMediaList from '@/features/Song/components/SongMediaList';
@@ -46,7 +47,11 @@ export default function PersonalOverview(props) {
           )}
         </Col>
         <Col span={16} className="zm-column">
-          <SongMediaList songList={favoriteSongs} type="list" className="personal-page__overview__media-list" />
+          {favoriteSongs.length > 0 ? (
+            <SongMediaList songList={favoriteSongs} type="list" className="personal-page__overview__media-list" />
+          ) : (
+            <NoContentBox message="Hãy nhấn ♥ để lưu bài hát yêu thích " />
+          )}
         </Col>
       </Row>
       <Row style={{ marginBottom: '50px' }}>

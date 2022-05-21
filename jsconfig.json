@@ -16,6 +16,7 @@
     //   "DOM",
     //   "DOM.Iterable",
     // ]
+    "resolveJsonModule": true,
     "paths": {
       "@/*": [
         "./*"

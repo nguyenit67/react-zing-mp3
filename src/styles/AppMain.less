@@ -485,16 +485,8 @@
     margin-left: 4px;
 
     .zm-button {
-      background-color: transparent;
-      border-radius: 50%;
-      color: #170f23;
-      color: var(--dark);
-      padding: 0;
-      text-align: center;
-      width: 36px;
-
-      font-size: 14px;
-      height: 36px;
+      .icon-button-circle();
+      // font-size: 14px;
     }
 
     .zm-button:hover {
@@ -1086,5 +1078,31 @@
   && {
     // color: #c662ef;
     color: var(--purple-primary);
+  }
+}
+
+// --------------- UNDER CONSTRUCTION PAGE ---------------
+.no-content-box {
+  .flex(center, center);
+  flex-direction: column;
+  width: 100%;
+  padding: 30px 0;
+  min-height: 220px;
+
+  background-color: var(--alpha-bg);
+  color: var(--text-secondary);
+
+  .ic-bg-music {
+    width: 90px;
+    height: 90px;
+    font-size: 80px;
+    margin-bottom: 18px;
+
+    background-image: url('https://zjs.zmdcdn.me/zmp3-desktop/releases/v1.6.27/static/media/music-icon.cfa4aa91.svg');
+  }
+
+  .no-content-text {
+    font-size: 16px;
+    line-height: normal;
   }
 }

@@ -1,5 +1,6 @@
 import StorageKeys from '@/constants/storage-keys';
 import React, { useContext, useEffect, useState } from 'react';
+import { default as SAMPLE_FAVORITE_SONGS } from '@/json/SAMPLE_FAVORITE_SONGS.json';
 
 /**
  * @typedef {import('@/types').Song} Song
@@ -15,7 +16,11 @@ export const FavoriteSongsProvider = ({ children }) => {
   const [favoriteSongs, setFavoriteSongs] = useState(
     /** @returns {Song[]}  */ () => {
       const favoriteSongsJson = localStorage.getItem(StorageKeys.FAVORITE_SONGS);
-      return favoriteSongsJson ? JSON.parse(favoriteSongsJson) : [];
+      if (favoriteSongsJson) {
+        return JSON.parse(favoriteSongsJson);
+      }
+      console.log(SAMPLE_FAVORITE_SONGS);
+      return SAMPLE_FAVORITE_SONGS || [];
     }
   );
 

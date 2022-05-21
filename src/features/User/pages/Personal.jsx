@@ -7,6 +7,7 @@ import PersonalSongList from '../components/PersonalSongList';
 import { Helmet } from 'react-helmet-async';
 // @ts-ignore
 import myProfileUrl from '@/static/images/profile-picture.webp';
+import NoContentBox from '@/components/NoContentBox';
 
 const tabList = [
   {
@@ -68,7 +69,7 @@ export default function PersonalPage() {
         <Route index element={<PersonalOverview />} />
         <Route path="bai-hat" element={<PersonalSongList />} />
         <Route path="artists" element={<PersonalArtistList />} />
-        {/* <Route path='playlist' /> */}
+        <Route path="playlist" element={<NoContentBox message="Danh sách playlist trống" />} />
       </Routes>
     </div>
   );

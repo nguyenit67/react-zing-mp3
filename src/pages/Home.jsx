@@ -74,7 +74,7 @@ export default function Home() {
 function renderHomeMediaList({ items, loading = false, title = 'Nhạc mới mỗi ngày' }) {
   return loading ? (
     <div className="home__media-list">
-      <Skeleton width={200} height={15} />
+      <Skeleton width={200} height={20} style={{ marginBottom: '5px' }} />
       <SongMediaSkeletonList type="card" />
     </div>
   ) : (

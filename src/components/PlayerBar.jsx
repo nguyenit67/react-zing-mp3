@@ -2,6 +2,7 @@ import { common } from '@/constants';
 import StorageKeys from '@/constants/storage-keys';
 import { useSongMp3 } from '@/features/queries';
 import {
+  addRecentSong,
   cycleLoopMode,
   LOOP_MODE,
   playNext,
@@ -18,6 +19,7 @@ import {
   selectRepeatMode,
 } from '@/features/Song/reducers/selectors';
 import renderArtistsLinkText from '@/features/Song/utils/renderArtistsLinkText';
+import usePrevious from '@/hooks/usePrevious';
 import { SAMPLE_ARTIST } from '@/types';
 import { formatTime } from '@/utils';
 import { Slider } from 'antd';
@@ -45,6 +47,9 @@ export default function PlayerBar() {
 
   /** @type {Song} */
   const currentSong = useSelector(selectCurrentPlayingSong) ?? {};
+  /** @type {Song | undefined} */
+  const justPlayedSong = usePrevious(currentSong);
+
   const playingIndex = useSelector(selectPlayingIndex);
   const isAppPlaying = useSelector(selectIsAppPlaying);
   const repeatMode = useSelector(selectRepeatMode);
@@ -72,6 +77,12 @@ export default function PlayerBar() {
     duration = 150,
   } = currentSong;
 
+  useEffect(() => {
+    if (justPlayedSong?.encodeId) {
+      dispatch(addRecentSong(justPlayedSong));
+    }
+    // @ts-ignore
+  }, [justPlayedSong?.encodeId]);
   // console.log('New render', { playingIndex, songTitle, currentTime });
   useEffect(() => {
     setCurrentTime(0);
@@ -127,6 +138,10 @@ export default function PlayerBar() {
       audioRef.current.play();
       dispatch(setAppPlaying(true));
       return;
+      // } else if (repeatMode === LOOP_MODE.NO_LOOP) {
+      //   dispatch(setAppPlaying(false));
+      //   setCurrentTime(0);
+      //   return;
     }
 
     // setCurrentTime(0);
@@ -207,11 +222,9 @@ export default function PlayerBar() {
                 className={clsx('zm-button zm-button-shuffle', { active: isShuffle })}
                 onClick={handleClickShuffle}
               >
-                {/* <i className="fa-solid fa-shuffle"></i> */}
                 <ZmIcon className="ic-shuffle" />
               </button>
               <button className="zm-button" onClick={handleClickPlayBackward}>
-                {/* <i className="fa-solid fa-backward-step"></i> */}
                 <ZmIcon className="ic-pre" />
               </button>
               <button className="zm-button zm-button-play" onClick={handleClickPlayButton}>
@@ -224,14 +237,12 @@ export default function PlayerBar() {
                 )}
               </button>
               <button className="zm-button" onClick={handleClickPlayForward}>
-                {/* <i className="fa-solid fa-forward-step"></i> */}
                 <ZmIcon className="ic-next" />
               </button>
               <button
                 className={clsx('zm-button zm-button-repeat', { active: repeatMode !== LOOP_MODE.NO_LOOP })}
                 onClick={handleClickLoopButton}
               >
-                {/* <i className="fa-solid fa-arrows-rotate"></i> */}
                 {LOOP_ICON[repeatMode]}
               </button>
             </div>
@@ -258,12 +269,9 @@ export default function PlayerBar() {
       <div className="zm-player__right">
         <div className="player-control__right">
           <button className="zm-button">
-            {/* <i className="fa-solid fa-photo-film"></i> */}
-            {/* <ZmIcon className="ic-mv" /> */}
             <ZmIcon className="ic-mv" style={{ fontSize: '20px' }} />
           </button>
           <button className="zm-button">
-            {/* <i className="fa-solid fa-microphone-lines"></i> */}
             <ZmIcon className="ic-karaoke" />
           </button>
           <button className="zm-button">

@@ -1,14 +1,18 @@
 import { pathKeys } from '@/constants';
+import { WEBSITE_TITLE } from '@/constants/common';
 import ArtistDetailPage from '@/features/Artist/pages/ArtistDetailPage';
 import Personal from '@/features/User/pages/Personal';
 import AppLayout from '@/layouts/MainAppLayout';
 import Home from '@/pages/Home';
 import Search from '@/pages/Search';
-import '@/styles/AppMain.less';
 import { Helmet } from 'react-helmet-async';
 import { Navigate, Route, Routes } from 'react-router-dom';
-import { WEBSITE_TITLE } from '@/constants/common';
 import ZmQueryErrorBoundary from './components/ZmQueryErrorBoundary';
+
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.min.css';
+
+import '@/styles/AppMain.less';
 
 export default function App() {
   return (
@@ -29,6 +33,8 @@ export default function App() {
           </Routes>
         </AppLayout>
       </ZmQueryErrorBoundary>
+
+      <ToastContainer limit={2} />
     </div>
   );
 }

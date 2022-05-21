@@ -630,6 +630,7 @@
 
 // --------------------------- START OF RIGHT PLAYLIST SIDEBAR (PLAYLIST at right sidebar) ---------------------------
 .sidebar-right {
+  position: relative;
   height: 100%;
   background-color: var(--sidebar-right-bg-color);
 
@@ -680,9 +681,36 @@
       }
     }
 
+    .recent-empty {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+
+      .content {
+        font-size: 16px;
+        line-height: 1.58;
+        margin-bottom: 20px;
+        font-weight: 600;
+      }
+    }
+
     .recent-empty .zm-button {
-      position: relative;
-      top: -20px;
+      display: block;
+      padding: 7px 26px;
+      white-space: nowrap;
+
+      line-height: 1;
+      color: var(--dark);
+      background-color: var(--purple-primary);
+      font-size: 14px;
+      border-radius: 999px;
+      font-weight: 400;
+
+      span {
+        line-height: normal;
+      }
     }
   }
 }

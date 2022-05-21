@@ -1,6 +1,7 @@
 import searchApi from '@/api/searchApi';
 import songApi from '@/api/songApi';
 import { useQuery } from 'react-query';
+import { toast } from 'react-toastify';
 
 /**
  * @typedef {import('@/types').Artist} Artist
@@ -78,6 +79,17 @@ export const useSpotlightArtists = () => useHomeQuery({ page: 3 }, transformHome
 
 export const useSongMp3 = (songId, condition = true) =>
   useQuery(['songMp3', songId], () => songApi.getMp3(songId), {
-    select: ({ data }) => data['128'],
+    // @ts-ignore
+    select: ({ data, msg: errorMsg }) => {
+      if (!data) {
+        toast(errorMsg, { type: 'error' });
+        return '';
+      }
+      return data['128'];
+    },
     enabled: condition,
+    onError: (err) => {
+      // @ts-ignore
+      toast(err.message, { type: 'error' });
+    },
   });

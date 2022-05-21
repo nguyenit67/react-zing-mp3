@@ -24,14 +24,14 @@ export default function SongMediaSkeletonList({ type = 'list', className, count 
         {type === 'card'
           ? [...Array(displayCount).keys()].map((index) => (
               <div key={index} className="media-card">
-                <Skeleton height={140} style={{ marginBottom: '10px' }} />
-                <Skeleton count={2} />
+                <Skeleton height={140} borderRadius="8px" style={{ marginBottom: '5px' }} />
+                <Skeleton count={2} height={10} />
               </div>
             ))
           : [...Array(displayCount).keys()].map((index) => (
               <Row key={index} align="middle" style={{ padding: '5px' }}>
                 <Col>
-                  <Skeleton width={40} height={40} inline style={{ marginRight: '10px' }} />
+                  <Skeleton width={40} height={40} borderRadius="4px" style={{ marginRight: '10px' }} />
                 </Col>
                 <Col style={{ display: 'flex', alignItems: 'center' }}>
                   <Col>

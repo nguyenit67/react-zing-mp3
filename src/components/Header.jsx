@@ -42,7 +42,7 @@ export default function Header() {
           <ZmIcon className="ic-search" />
           <div className="zm-input-text">
             <input
-              value={queryStr}
+              defaultValue={queryStr}
               type="search"
               className="zm-input-text__input"
               placeholder="Nhập tên bài hát, nghệ sĩ hoặc MV..."

@@ -3,20 +3,20 @@ export default function SkinIcon(props) {
     <svg width="20" height="20" viewBox="0 0 20 20">
       <defs>
         <linearGradient id="j32lhg93hd" x1="62.206%" x2="18.689%" y1="70.45%" y2="39.245%">
-          <stop offset="0%" stop-color="#F81212"></stop>
-          <stop offset="100%" stop-color="red"></stop>
+          <stop offset="0%" stopColor="#F81212"></stop>
+          <stop offset="100%" stopColor="red"></stop>
         </linearGradient>
         <linearGradient id="hjoavsus6g" x1="50%" x2="11.419%" y1="23.598%" y2="71.417%">
-          <stop offset="0%" stop-color="#00F"></stop>
-          <stop offset="100%" stop-color="#0031FF"></stop>
+          <stop offset="0%" stopColor="#00F"></stop>
+          <stop offset="100%" stopColor="#0031FF"></stop>
         </linearGradient>
         <linearGradient id="la1y5u3dvi" x1="65.655%" x2="25.873%" y1="18.825%" y2="56.944%">
-          <stop offset="0%" stop-color="#FFA600"></stop>
-          <stop offset="100%" stop-color="orange"></stop>
+          <stop offset="0%" stopColor="#FFA600"></stop>
+          <stop offset="100%" stopColor="orange"></stop>
         </linearGradient>
         <linearGradient id="2dsmrlvdik" x1="24.964%" x2="63.407%" y1="8.849%" y2="55.625%">
-          <stop offset="0%" stop-color="#13EFEC"></stop>
-          <stop offset="100%" stop-color="#00E8DF"></stop>
+          <stop offset="0%" stopColor="#13EFEC"></stop>
+          <stop offset="100%" stopColor="#00E8DF"></stop>
         </linearGradient>
         <filter id="4a7imk8mze" width="230%" height="230%" x="-65%" y="-65%" filterUnits="objectBoundingBox">
           <feGaussianBlur in="SourceGraphic" stdDeviation="3.9"></feGaussianBlur>
@@ -40,11 +40,11 @@ export default function SkinIcon(props) {
           d="M3.333 14.167V5.833l-1.666.834L0 3.333 3.333 0h3.334c.04 1.57.548 2.4 1.524 2.492l.142.008C9.403 2.478 9.958 1.645 10 0h3.333l3.334 3.333L15 6.667l-1.667-.834v8.334h-10z"
         ></path>
       </defs>
-      <g fill="none" fill-rule="evenodd" transform="translate(2 3)">
+      <g fill="none" fillRule="evenodd" transform="translate(2 3)">
         <mask id="tinejqaasb" fill="#fff">
           <use xlinkHref="#qtpqrj1oda"></use>
         </mask>
-        <use fill="#FFF" fill-opacity="0" xlinkHref="#qtpqrj1oda"></use>
+        <use fill="#FFF" fillOpacity="0" xlinkHref="#qtpqrj1oda"></use>
         <g mask="url(#tinejqaasb)">
           <g transform="translate(-2 -3)">
             <mask id="uf3ckvfvpf" fill="#fff">
@@ -85,7 +85,7 @@ export default function SkinIcon(props) {
             ></circle>
           </g>
         </g>
-        <use fill="#FFF" fill-opacity="0.05" xlinkHref="#2eiwxjmc7m"></use>
+        <use fill="#FFF" fillOpacity="0.05" xlinkHref="#2eiwxjmc7m"></use>
       </g>
     </svg>
   );

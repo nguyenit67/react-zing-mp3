@@ -2,12 +2,12 @@ import ZmIcon from '@/components/ZComponents/ZmIcon';
 import { common } from '@/constants';
 import renderArtistsLinkText from '@/features/Song/utils/renderArtistsLinkText';
 import clsx from 'clsx';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useFavoriteSongs } from '../context/FavoriteSongsContext';
 import useIsSongActive from '../hooks/useIsSongActive';
 import { playSong, setAppPlaying } from '../reducers/playerQueueSlice';
-import { selectPlayer } from '../reducers/selectors';
+import { selectIsAppPlaying } from '../reducers/selectors';
 
 /**
  *
@@ -27,7 +27,8 @@ export default function SongMediaItem({ song, type: displayType = 'list-item', d
    */
 
   /** @type {PlayerQueueSliceState} */
-  const { isAppPlaying } = useSelector(selectPlayer);
+  const isAppPlaying = useSelector(selectIsAppPlaying);
+
   const isActive = useIsSongActive(song);
   const isItemPlaying = isActive && isAppPlaying;
 
@@ -36,7 +37,7 @@ export default function SongMediaItem({ song, type: displayType = 'list-item', d
 
   const {
     thumbnailM: thumbnailUrl = 'https://i.scdn.co/image/ab67616d0000b273ba5db46f4b838ef6027e6f96',
-    title: songName = 'Never Gonna Give You Up (500)',
+    title: songName = 'Untitled',
     artists: songArtists,
   } = song;
 
@@ -51,13 +52,18 @@ export default function SongMediaItem({ song, type: displayType = 'list-item', d
   };
 
   const handleClickPlayButton = () => {
-    if (!isActive) {
-      console.log({ song, isActive, isAppPlaying });
-      dispatch(playSong(song));
+    if (isActive) {
+      dispatch(setAppPlaying(!isAppPlaying));
       return;
     }
-
-    dispatch(setAppPlaying(!isAppPlaying));
+    (async () => {
+      try {
+        // @ts-ignore
+        const fetchStreamResult = await dispatch(playSong(song)).unwrap();
+      } catch (error) {
+        console.log('Not found stream source', error.message);
+      }
+    })();
   };
 
   useEffect(() => {
@@ -81,7 +87,7 @@ export default function SongMediaItem({ song, type: displayType = 'list-item', d
 
   const playButtonElement = (
     <button className="zm-button zm-button-play" onClick={handleClickPlayButton}>
-      {isItemPlaying ? <img src={common.SOUND_PLAYING_GIF} alt="" /> : <i className="fa-solid fa-play"></i>}
+      {isItemPlaying ? <img src={common.SOUND_PLAYING_GIF} alt="" /> : <ZmIcon className="ic-play" />}
     </button>
   );
 
@@ -95,7 +101,7 @@ export default function SongMediaItem({ song, type: displayType = 'list-item', d
               {favoriteButtonElement}
               {playButtonElement}
               <button className="zm-button">
-                <i className="fa-solid fa-ellipsis"></i>
+                <ZmIcon className="ic-more" />
               </button>
             </div>
           </div>
@@ -122,7 +128,7 @@ export default function SongMediaItem({ song, type: displayType = 'list-item', d
           <div className="media-item__actions">
             {favoriteButtonElement}
             <button className="zm-button">
-              <i className="fa-solid fa-ellipsis"></i>
+              <ZmIcon className="ic-more" />
             </button>
           </div>
         </div>

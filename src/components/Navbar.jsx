@@ -92,7 +92,8 @@ function NavBar() {
 
       <div className="navbar__bottom">
         <button className="zm-button">
-          <i className="fa-solid fa-plus"></i>
+          {/* <i className="fa-solid fa-plus"></i> */}
+          <ZmIcon className="ic-add" />
           <span className="navbar__button-text">Tạo playlist mới</span>
         </button>
       </div>

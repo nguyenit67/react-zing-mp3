@@ -1,10 +1,8 @@
+import songApi from '@/api/songApi';
 import StorageKeys from '@/constants/storage-keys';
 import { randomIntBetween } from '@/utils';
-import { createSlice } from '@reduxjs/toolkit';
-
-/**
- * @typedef {import('@/types').Song} Song
- */
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { Bounce, Flip, Slide, toast, Zoom } from 'react-toastify';
 
 export const LOOP_MODE = {
   NO_LOOP: 'no-loop',
@@ -19,20 +17,44 @@ const NEXT_LOOP_MODE = {
 };
 
 /**
- * @typedef {typeof LOOP_MODE} LOOPMODE_TYPE
- */
-
-/**
+ * @typedef {import('@/types').Song} Song
  * @typedef {{
- *  songList: Song[],
- *  stackPlayedIndexes: number[],
- *  currentIndex: number,
- *  isAppPlaying: boolean,
- *  isLoadingAudio: boolean,
- *  isShuffle: boolean,
- *  loopMode: LOOPMODE_TYPE[keyof LOOPMODE_TYPE],
+ *  songList: Song[];
+ *  recentSongs: Song[];
+ *  stackPlayedIndexes: number[];
+ *  currentIndex: number;
+ *  isAppPlaying: boolean;
+ *  isFetchingStreamUrl: boolean;
+ *  streamUrl: string;
+ *  isShuffle: boolean;
+ *  loopMode: string;
  * }} PlayerQueueSliceState
  */
+
+/** @type {import('@reduxjs/toolkit').AsyncThunk<any, Song, any>} */
+
+export const playSong = createAsyncThunk('playerQueue/playSong', async (song) => {
+  const loadingToastId = toast.loading('Đang tải bài hát...');
+  const resp = await songApi.getMp3(song.encodeId);
+
+  const streamUrl = resp?.data?.['128'] ?? '';
+
+  // @ts-ignore
+  if (resp.err !== 0 || streamUrl.length === 0) {
+    toast.update(loadingToastId, {
+      render: 'Tải bài hát thất bại',
+      type: toast.TYPE.ERROR,
+      isLoading: false,
+      transition: Flip,
+      autoClose: 3000,
+    });
+    // @ts-ignore
+    throw new Error(`Tải bài hát thất bại: ${resp?.msg}`);
+  }
+
+  toast.dismiss(loadingToastId);
+  return { song, streamUrl };
+});
 
 const playerQueueSlice = createSlice({
   name: 'playerQueue',
@@ -41,11 +63,47 @@ const playerQueueSlice = createSlice({
     songList: [],
     stackPlayedIndexes: [],
     currentIndex: 0,
+    recentSongs: JSON.parse(localStorage.getItem(StorageKeys.RECENT_SONGS)) || [],
+
     isAppPlaying: false,
-    isLoadingAudio: false,
-    // volume: JSON.parse(localStorage.getItem(StorageKeys.VOLUME)) || 0.5,
+    isFetchingStreamUrl: false,
+    streamUrl: '',
+
     loopMode: LOOP_MODE.NO_LOOP,
     isShuffle: false,
+  },
+  extraReducers: {
+    // @ts-ignore
+    [playSong.pending]: (state) => {
+      state.isFetchingStreamUrl = true;
+    },
+
+    /**
+     * @param {PlayerQueueSliceState} state
+     */
+    // @ts-ignore
+    [playSong.fulfilled]: (state, action) => {
+      const { song: newSong, streamUrl } = action.payload;
+
+      state.isFetchingStreamUrl = false;
+      state.streamUrl = streamUrl;
+
+      const index = state.songList.findIndex((song) => song.encodeId === newSong.encodeId);
+      let nextIndex;
+
+      if (index !== -1) {
+        nextIndex = index;
+      } else {
+        state.songList.push(newSong);
+        nextIndex = state.songList.length - 1;
+      }
+      // add just played song to recent songs
+
+      console.log('nextIndex', nextIndex);
+      state.currentIndex = nextIndex;
+      state.stackPlayedIndexes.push(nextIndex);
+      state.isAppPlaying = true;
+    },
   },
   reducers: {
     playNext(state) {
@@ -90,23 +148,6 @@ const playerQueueSlice = createSlice({
       }
     },
 
-    /** @param {PlayerQueueSliceState} state */
-    playSong(state, action) {
-      const newSong = action.payload;
-      const existedIndex = state.songList.findIndex((oldSong) => oldSong.encodeId === newSong.encodeId);
-      let nextIndex;
-
-      if (existedIndex !== -1) {
-        nextIndex = existedIndex;
-      } else {
-        state.songList.push(newSong);
-        nextIndex = state.songList.length - 1;
-      }
-      state.currentIndex = nextIndex;
-      state.stackPlayedIndexes.push(nextIndex);
-      state.isAppPlaying = true;
-    },
-
     setSongs(state, action) {
       const songs = action.payload;
       state.songList = songs;
@@ -121,16 +162,6 @@ const playerQueueSlice = createSlice({
       state.isShuffle = action.payload;
     },
 
-    setIsLoadingAudio(state, action) {
-      state.isLoadingAudio = action.payload;
-    },
-
-    // setVolume(state, action) {
-    //   const newVolume = action.payload;
-    //   state.volume = newVolume;
-    //   localStorage.setItem(StorageKeys.VOLUME, JSON.stringify(newVolume));
-    // },
-
     setLoopMode(state, action) {
       state.loopMode = action.payload;
     },
@@ -138,10 +169,23 @@ const playerQueueSlice = createSlice({
     cycleLoopMode(state) {
       state.loopMode = NEXT_LOOP_MODE[state.loopMode];
     },
+
+    addRecentSong(state, { payload: recentSong }) {
+      state.recentSongs = state.recentSongs.filter((song) => song.encodeId !== recentSong.encodeId);
+      state.recentSongs.unshift(recentSong);
+    },
   },
 });
 
 const { actions: playerQueueActions, reducer: playerQueueReducer } = playerQueueSlice;
-export const { playNext, playPrevious, playSong, setSongs, setAppPlaying, cycleLoopMode, setLoopMode, setShuffle } =
-  playerQueueActions;
+export const {
+  playNext,
+  playPrevious,
+  setSongs,
+  setAppPlaying,
+  cycleLoopMode,
+  setLoopMode,
+  setShuffle,
+  addRecentSong,
+} = playerQueueActions;
 export default playerQueueReducer;

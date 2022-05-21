@@ -1,6 +1,7 @@
 import clsx from 'clsx';
 import { nanoid } from 'nanoid';
 import React, { useLayoutEffect, useState } from 'react';
+import ZmIcon from './ZmIcon';
 
 /**
  * @template DataItem
@@ -82,7 +83,8 @@ export default function ZMediaCarousel({
     <div className={clsx('zm-gallery', { [`style-${carouselType}`]: carouselType === 'overlap' })}>
       <div className="zm-gallery-prev">
         <button className="zm-button zm-gallery-control-btn" onClick={goToPrevSlide}>
-          <i className="fa-solid fa-chevron-left"></i>
+          {/* <i className="fa-solid fa-chevron-left"></i> */}
+          <ZmIcon className="ic-go-left" />
         </button>
       </div>
 
@@ -128,7 +130,8 @@ export default function ZMediaCarousel({
 
       <div className="zm-gallery-next">
         <button className="zm-button zm-gallery-control-btn" onClick={goToNextSlide}>
-          <i className="fa-solid fa-chevron-right"></i>
+          {/* <i className="fa-solid fa-chevron-right"></i> */}
+          <ZmIcon className="ic-go-right" />
         </button>
       </div>
     </div>

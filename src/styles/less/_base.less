@@ -3,6 +3,7 @@ a {
   color: unset;
   transition: 0.3s;
 
+  &:active,
   &:hover {
     color: var(--link-text-hover);
     text-decoration: underline;
@@ -41,7 +42,7 @@ a {
 
 .zm-title {
   color: var(--dark);
-  font-weight: 900;
+  font-weight: 700;
   font-size: 18px;
   margin-bottom: 14px;
 }
@@ -112,23 +113,40 @@ a {
 
   // @x-pos: -15px;
   @x-pos: -5px;
+  @x-icon-pos: -2px;
   &-prev {
     left: @x-pos;
+
+    .ic-zing-icon {
+      position: relative;
+      left: @x-icon-pos;
+    }
   }
   &-next {
     right: @x-pos;
+
+    .ic-zing-icon {
+      position: relative;
+      right: @x-icon-pos;
+    }
   }
 
   .zm-gallery-control-btn {
     background-color: var(--transparent-black-2); // this copy
     // background-color: hsla(0, 0%, 100%, 0.15); // this better
-    .square(50px);
+    .square(55px);
+    .inline-flex(center, center);
     border-radius: 50px;
     padding: 0;
 
-    color: var(--white);
+    color: var(--dark);
     font-size: 18px;
     text-align: center;
+
+    .ic-zing-icon {
+      // .square(18px);
+      font-size: 1.4vw;
+    }
 
     &:hover {
       background-color: var(--transparent-black-5);

@@ -13,7 +13,7 @@ export default function Search() {
   const keyword = searchParams.get(QUERY_KEY);
 
   const fetchParams = { [QUERY_KEY]: keyword };
-  const { data: songList, isLoading, isError } = useSearchSongsQuery(fetchParams);
+  const { data: songList, isLoading: isLoadingResult } = useSearchSongsQuery(fetchParams);
 
   const numberOfResults = songList?.length;
 
@@ -31,9 +31,15 @@ export default function Search() {
 
       <h3 className="zm-title">Từ Khóa tìm kiếm: {keyword}</h3>
 
-      <div className="search-page__info-text">Có {numberOfResults} kết quả tìm kiếm</div>
+      <div className="search-page__info-text">
+        {isLoadingResult ? 'Đang tìm kiếm...' : `Có ${numberOfResults} kết quả tìm kiếm`}
+      </div>
 
-      {isLoading ? <SongMediaSkeletonList type="list" count={10} /> : <SongMediaList type="list" songList={songList} />}
+      {isLoadingResult ? (
+        <SongMediaSkeletonList type="list" count={10} />
+      ) : (
+        <SongMediaList type="list" songList={songList} />
+      )}
     </div>
   );
 }

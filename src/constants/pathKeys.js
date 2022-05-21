@@ -7,7 +7,7 @@ const pathKeys = {
   LATEST_SONGS: '/nhac-moi',
   GENRE: '/the-loai',
   TOP100: '/top100',
-  MV: '/mv',
+  MV: '/music-video',
 
   SEARCH: '/tim-kiem',
   ARTIST: '/artist',

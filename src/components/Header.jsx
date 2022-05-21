@@ -12,15 +12,23 @@ export default function Header() {
   const queryStr = searchParams.get(QUERY_KEY);
 
   const navigate = useNavigate();
-  const searchNavigate = useNavigateSearch();
+  const navigateSearch = useNavigateSearch();
 
   const handleKeyDown = (event) => {
-    if (event.key === 'Enter') {
-      const params = {
-        [QUERY_KEY]: event.target.value,
-      };
-      searchNavigate(pathKeys.SEARCH, params);
+    if (event.key !== 'Enter') {
+      return;
     }
+    const query = event.target.value;
+    const trimmedQuery = query.trim();
+
+    if (trimmedQuery.length === 0) {
+      return;
+    }
+    const params = {
+      [QUERY_KEY]: trimmedQuery,
+    };
+
+    navigateSearch(pathKeys.SEARCH, params);
   };
 
   const navGoBack = () => navigate(-1);

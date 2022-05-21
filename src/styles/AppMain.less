@@ -174,7 +174,6 @@
 
   .logo-letter--normal {
     -webkit-text-stroke: 0;
-    color: #170f23;
     color: var(--dark);
     font-size: 65%;
     text-shadow: none;
@@ -190,7 +189,7 @@
 
   // an <hr />
   &__menu-divider {
-    width: 85%;
+    width: 75%;
     margin: 0 auto;
     border-color: var(--transparent-black-3);
   }
@@ -244,31 +243,35 @@
   color: var(--navigation-text);
   display: block;
   width: 100%;
-  .padding-y(8.5px);
-  .padding-x(@navbar-pad-x);
-
-  .inline-flex(center, normal);
+  .inline-flex(center, center);
 
   font-weight: 700;
   font-size: 13px;
   text-decoration: none;
 
-  // &:active,
-  // &:focus,
+  .padding-y(15px);
+  .padding-x(0);
+
+  .media-breakpoint-min(@tablet-width-max, {
+    .padding-y(8.5px);
+    .padding-x(@navbar-pad-x);
+    justify-content: normal;
+  });
+
   &:hover {
     color: var(--purple-primary);
     // border-color: var(--purple-red);
   }
 
   .ic-zing-icon {
-    width: 24px;
-    height: 24px;
+    .square(24px);
     font-size: 24px;
-    margin-right: 10px;
     border-radius: 4px;
     flex-shrink: 0;
 
-    line-height: 66.66%;
+    .media-breakpoint-min(@tablet-width-max, {
+      margin-right: 10px;
+    });
   }
 
   &.active {
@@ -751,18 +754,14 @@
   }
 
   &__name {
-    -webkit-line-clamp: 1;
-    line-clamp: 1;
-    -webkit-box-orient: vertical;
-    display: -webkit-box;
     font-size: 14px;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    .clamp-line-ellipsis(1);
   }
 
   &__artist {
     font-size: 12px;
     color: var(--text-secondary);
+    .clamp-line-ellipsis(1);
   }
 
   &__actions {

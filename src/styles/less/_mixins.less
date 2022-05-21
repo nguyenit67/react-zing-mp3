@@ -36,6 +36,15 @@
   }
 }
 
+.clamp-line-ellipsis(@line-count: 1) {
+  -webkit-line-clamp: @line-count;
+  line-clamp: @line-count;
+  -webkit-box-orient: vertical;
+  display: -webkit-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .overlay() {
   position: absolute;
   top: 0;

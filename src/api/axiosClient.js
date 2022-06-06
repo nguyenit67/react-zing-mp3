@@ -6,7 +6,7 @@ import axios from 'axios';
 
 const axiosClient = axios.create(
   /** @type {import('axios').AxiosRequestConfig} */ {
-    baseURL: 'https://stark-oasis-16236.herokuapp.com/https://zingmp3.vn',
+    baseURL: 'https://salty-stream-72589.herokuapp.com/api',
     headers: {
       'Content-Type': 'application/json',
       // 'X-Requested-With': '*',

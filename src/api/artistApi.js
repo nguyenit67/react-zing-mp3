@@ -22,7 +22,7 @@ export function transformToArtist({ data }) {
 const artistApi = {
   /** @param {string} artistAlias */
   getDetail(artistAlias) {
-    const url = `https://music-player-pink.vercel.app/api/artist?name=${artistAlias}`;
+    const url = `/artist?name=${artistAlias}`;
 
     return axiosClient.get(url);
   },

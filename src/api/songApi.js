@@ -8,12 +8,12 @@ const songApi = {
   getTop100() {},
 
   getChartHome() {
-    const url = 'https://music-player-pink.vercel.app/api/chart-home';
+    const url = '/chart-home';
     return axiosClient.get(url);
   },
 
   getHome({ page }) {
-    const url = `https://music-player-pink.vercel.app/api/home?page=${page}`;
+    const url = `/home?page=${page}`;
     return axiosClient.get(url);
   },
 
@@ -24,7 +24,7 @@ const songApi = {
   },
 
   getMp3(songId) {
-    const url = `https://music-player-pink.vercel.app/api/song?id=${songId}`;
+    const url = `/song?id=${songId}`;
     return axiosClient.get(url);
   },
 };

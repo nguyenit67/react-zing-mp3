@@ -42,11 +42,12 @@ export const playSong = createAsyncThunk('playerQueue/playSong', async (song) =>
   // @ts-ignore
   if (resp.err !== 0 || streamUrl.length === 0) {
     toast.update(loadingToastId, {
-      render: 'Tải bài hát thất bại',
+      render: 'Không tải được bài hát, vui lòng thử lại sau!',
       type: toast.TYPE.ERROR,
       isLoading: false,
       transition: Flip,
-      autoClose: 3000,
+      autoClose: 2250,
+      hideProgressBar: true,
     });
     // @ts-ignore
     throw new Error(`Tải bài hát thất bại: ${resp?.msg}`);

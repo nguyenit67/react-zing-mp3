@@ -8,13 +8,21 @@ import { toast } from 'react-toastify';
  * @returns {Artist[]}
  */
 export function transformHomeToArtists({ data }) {
-  const artistsSection = data.items.find(
-    (item) => item.sectionType === 'artistSpotlight' && item.viewType === 'slider'
-  );
+  console.log({ home_data: data });
+  const artistsSection = data?.items?.find((item) => item.sectionId === 'hArtistTheme' && item.viewType === 'slider');
 
-  const artistList = artistsSection.items;
-  return artistList;
+  const artistList = artistsSection?.items?.map((item) => item?.artists[0]);
+  return artistList ?? [];
 }
+// export function transformHomeToArtists({ data }) { // old data structure
+//   console.log({ home_data: data });
+//   const artistsSection = data?.items?.find(
+//     (item) => item.sectionType === 'artistSpotlight' && item.viewType === 'slider'
+//   );
+
+//   const artistList = artistsSection?.items;
+//   return artistList ?? [];
+// }
 
 // export const getSongSections = ({ data }) => {
 export const transformHomeSongSections = ({ data }) => {
@@ -75,7 +83,8 @@ export const useHomeQuery = ({ page }, select) =>
 
 export const useChartHomeQuery = (select) => useQuery(['chartHome'], () => songApi.getChartHome(), { select });
 
-export const useSpotlightArtists = () => useHomeQuery({ page: 3 }, transformHomeToArtists);
+const PAGE_WITH_ARTIST_ALBUMS = 2;
+export const useSpotlightArtists = () => useHomeQuery({ page: 1 }, transformHomeToArtists);
 
 export const useSongMp3 = (songId, condition = true) =>
   useQuery(['songMp3', songId], () => songApi.getMp3(songId), {

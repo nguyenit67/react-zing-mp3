@@ -12,8 +12,9 @@ const songApi = {
     return axiosClient.get(url);
   },
 
-  getHome({ page }) {
-    const url = `/home?page=${page}`;
+  getHome({ page = 1 } = {}) {
+    // const url = `/home?page=${page}`;
+    const url = 'https://server-tau-six.vercel.app/api/home';
     return axiosClient.get(url);
   },
 

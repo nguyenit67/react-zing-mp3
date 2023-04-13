@@ -5,10 +5,7 @@ import getArtistLink from '@/features/Artist/utils/getArtistLink';
 import { transformHomeSongSections, useChartHomeQuery, useSpotlightArtists } from '@/features/queries';
 import SongMediaList from '@/features/Song/components/SongMediaList';
 import SongMediaSkeletonList from '@/features/Song/components/SongMediaSkeletonList';
-import clsx from 'clsx';
-import { Fragment } from 'react';
 import Skeleton from 'react-loading-skeleton';
-import LoadingSkeleton from 'react-loading-skeleton';
 import { Link } from 'react-router-dom';
 
 /**
@@ -23,17 +20,22 @@ export default function Home() {
   /** @type {UseQueryResult & {data: any}} */
   const { data: songSections, isLoading: isLoadingSections } = useChartHomeQuery(transformHomeSongSections);
 
-  const [firstSection, ...restSections] = songSections ?? [];
+  const [firstSection, ...otherSections] = songSections ?? [];
 
-  // const isLoadingSections = true; // for debug only
+  // for debug only
+  // const isLoadingSections = true;
+
   return (
     <div className="home-page">
-      <div className={clsx('home__artists-slider', { loading: isLoadingArtists })}>
-        {isLoadingArtists ? (
-          [...Array(3).keys()].map((index) => (
-            <LoadingSkeleton key={index} containerClassName="home__slide-item-skeleton" />
-          ))
-        ) : (
+      {isLoadingArtists ? (
+        <div className="home__artists-slider loading">
+          {Array.from(Array(3).keys()).map((index) => (
+            <Skeleton key={index} containerClassName="home__slide-item-skeleton" />
+          ))}
+        </div>
+      ) : // @ts-ignore
+      artists.length > 0 ? (
+        <div className="home__artists-slider">
           <ZMediaCarousel
             // @ts-ignore
             dataSource={createSlideList(artists)}
@@ -43,26 +45,27 @@ export default function Home() {
               </Link>
             )}
           />
-        )}
-      </div>
+        </div>
+      ) : null}
 
       {renderHomeMediaList({ ...firstSection, loading: isLoadingSections })}
 
       <div className="home__media-list">
         {isLoadingArtists ? (
           <ArtistSkeletonList count={5} />
-        ) : (
+        ) : // @ts-ignore
+        artists.length > 0 ? (
           <ArtistList
             // @ts-ignore
             artistList={artists.slice(0, 5)}
           />
-        )}
+        ) : null}
       </div>
 
       {isLoadingSections
         ? // @ts-ignore
-          [...Array(2).keys()].map((index) => <Fragment key={index}>{renderHomeMediaList({ loading: true })}</Fragment>)
-        : restSections.map((section, index) => <Fragment key={index}>{renderHomeMediaList(section)}</Fragment>)}
+          Array.from(Array(2)).map(() => renderHomeMediaList({ loading: true }))
+        : otherSections.map((section) => renderHomeMediaList(section))}
     </div>
   );
 }
